@@ -23,8 +23,12 @@ public class Usuario extends AbstractEntity implements Serializable {
 	@Column(nullable = false)
 	private String senha;
 	
+	@Column(nullable = false)
+	private String papel;
+	
 	@OneToOne(mappedBy = "usuario")
 	private Correntista correntista;
+	
 
 	public Usuario() {
 		// Construtor padrão
@@ -44,6 +48,15 @@ public class Usuario extends AbstractEntity implements Serializable {
 
 	public void setSenha(String senha) {
 		this.senha = senha;
+	}
+	
+	
+	public String getPapel() {
+		return papel;
+	}
+
+	public void setPapel(String papel) {
+		this.papel = papel;
 	}
 
 	public Correntista getCorrentista() {

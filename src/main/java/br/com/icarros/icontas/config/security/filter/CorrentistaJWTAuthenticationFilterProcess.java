@@ -53,9 +53,11 @@ public class CorrentistaJWTAuthenticationFilterProcess extends UsernamePasswordA
 			FilterChain chain,
 			Authentication authResult) throws IOException, ServletException {
 		UserDetailsICarros userDetailsICarros = (UserDetailsICarros) authResult.getPrincipal();
+		String role = userDetailsICarros.getAuthorities() != null ? userDetailsICarros.getAuthorities().toArray()[0].toString() : "";
 		String token = JWT.create()
 				.withSubject(userDetailsICarros.getUsername())
 				.withExpiresAt(new Date(System.currentTimeMillis() + SecurityConstsICarros.TOKEN_EXPIRACAO))
+				.withClaim("ROLE", role)
 				.sign(Algorithm.HMAC512(SecurityConstsICarros.getTokenSecret().getBytes()));
 		response.getWriter().write(token);
 		response.getWriter().flush();

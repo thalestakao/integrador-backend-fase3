@@ -2,11 +2,13 @@ package br.com.icarros.icontas.config.security.data;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import br.com.icarros.icontas.entity.Usuario;
+import br.com.icarros.icontas.entity.enums.Papel;
 
 public class UserDetailsICarros implements UserDetails {
 
@@ -20,7 +22,10 @@ public class UserDetailsICarros implements UserDetails {
 	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return new ArrayList<>();
+		if(usuario.getPapel() == null ) {
+			return null;
+		}
+		return List.of(Papel.valueOf(usuario.getPapel()));
 	}
 
 	@Override

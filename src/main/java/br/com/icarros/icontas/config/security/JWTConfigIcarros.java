@@ -48,6 +48,7 @@ public class JWTConfigIcarros {
         
 		http.csrf().disable().authorizeHttpRequests()
 		.antMatchers(HttpMethod.POST, SecurityConstsICarros.SIGN_UP_CORRENTISTA_URL).permitAll()
+		.antMatchers(SecurityConstsICarros.ALLOWED_URL).permitAll()
 		.anyRequest().authenticated()
 		.and()
 		.authenticationManager(authenticationManager)
