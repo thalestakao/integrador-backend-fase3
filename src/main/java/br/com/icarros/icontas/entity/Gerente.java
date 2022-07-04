@@ -1,5 +1,6 @@
 package br.com.icarros.icontas.entity;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -9,8 +10,13 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "tb_gerente")
-public class Gerente extends AbstractEntity {
+public class Gerente extends AbstractEntity implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Column(nullable = false)
 	private String nome;
 	
@@ -27,6 +33,7 @@ public class Gerente extends AbstractEntity {
 	private List<Correntista> correntistas;
 	
 	public Gerente() {
+		// Construtor padrão
 	}
 
 	public String getNome() {

@@ -1,5 +1,7 @@
 package br.com.icarros.icontas.entity;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
@@ -7,8 +9,14 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "tb_usuario")
-public class Usuario extends AbstractEntity{
+public class Usuario extends AbstractEntity implements Serializable {
 	
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Column(nullable = false, unique = true)
 	private String username;
 	
@@ -19,6 +27,7 @@ public class Usuario extends AbstractEntity{
 	private Correntista correntista;
 
 	public Usuario() {
+		// Construtor padrão
 	}
 
 	public String getUsername() {

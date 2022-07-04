@@ -1,5 +1,6 @@
 package br.com.icarros.icontas.entity;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -15,8 +16,15 @@ import br.com.icarros.icontas.entity.enums.UF;
 
 @Entity
 @Table(name = "tb_correntista")
-public class Correntista extends AbstractEntity {
+public class Correntista extends AbstractEntity implements Serializable {
 	
+	
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Column(nullable = false)
 	private String agencia;
 	
@@ -59,6 +67,7 @@ public class Correntista extends AbstractEntity {
 	private List<Transacao> transacoes;
 	
 	public Correntista() {
+		// Construtor padrão
 	}
 
 	public String getAgencia() {
