@@ -72,5 +72,7 @@ public class Correntista extends AbstractEntity implements Serializable {
 	
 	@OneToMany(mappedBy = "correntista", fetch = FetchType.LAZY)
 	private List<Transacao> transacoes;
-	
+
+	@Column(nullable = false)
+	private Boolean situacao;
 }
