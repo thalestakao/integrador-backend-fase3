@@ -1,8 +1,13 @@
 package br.com.icarros.icontas.dto.request;
 
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+
+import org.hibernate.validator.constraints.br.CPF;
 
 import br.com.icarros.icontas.entity.Gerente;
 import br.com.icarros.icontas.entity.enums.UF;
@@ -11,7 +16,7 @@ import lombok.Data;
 @Data
 public class CorrentistaRequest {
 	
-	@Size(min = 11, max = 11)
+	@CPF
     private String cpf;
 	
 	@NotBlank
@@ -27,12 +32,14 @@ public class CorrentistaRequest {
     private String email;
 
     @NotBlank
+    @Pattern(regexp = "(\\d{2})\\d{9}")
     private String telefone;
 
     @NotBlank
     private String endereco;
 
     @NotBlank
+    @Pattern(regexp = "\\d{5}-\\d{3}")
     private String cep;
 
     @NotBlank
@@ -41,9 +48,11 @@ public class CorrentistaRequest {
     @NotBlank
     private String cidade;  
     
-    @NotBlank
+    @NotNull
+    @Enumerated(EnumType.STRING)
     private UF uf;
 
     private Gerente gerente;
 
+    private Boolean situacao;
 }
