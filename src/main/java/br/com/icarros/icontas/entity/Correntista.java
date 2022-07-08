@@ -13,7 +13,11 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import br.com.icarros.icontas.entity.enums.UF;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 
+@AllArgsConstructor
+@Data
 @Entity
 @Table(name = "tb_correntista")
 public class Correntista extends AbstractEntity implements Serializable {
@@ -24,6 +28,9 @@ public class Correntista extends AbstractEntity implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+
+	@Column(nullable = false)
+	private String cpf;
 
 	@Column(nullable = false)
 	private String agencia;
@@ -65,108 +72,7 @@ public class Correntista extends AbstractEntity implements Serializable {
 	
 	@OneToMany(mappedBy = "correntista", fetch = FetchType.LAZY)
 	private List<Transacao> transacoes;
-	
-	public Correntista() {
-		// Construtor padrão
-	}
 
-	public String getAgencia() {
-		return agencia;
-	}
-
-	public void setAgencia(String agencia) {
-		this.agencia = agencia;
-	}
-
-	public String getConta() {
-		return conta;
-	}
-
-	public void setConta(String conta) {
-		this.conta = conta;
-	}
-
-	public String getNome() {
-		return nome;
-	}
-
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getTelefone() {
-		return telefone;
-	}
-
-	public void setTelefone(String telefone) {
-		this.telefone = telefone;
-	}
-
-	public String getEndereco() {
-		return endereco;
-	}
-
-	public void setEndereco(String endereco) {
-		this.endereco = endereco;
-	}
-
-	public String getCep() {
-		return cep;
-	}
-
-	public void setCep(String cep) {
-		this.cep = cep;
-	}
-
-	public String getBairro() {
-		return bairro;
-	}
-
-	public void setBairro(String bairro) {
-		this.bairro = bairro;
-	}
-
-	public String getCidade() {
-		return cidade;
-	}
-
-	public void setCidade(String cidade) {
-		this.cidade = cidade;
-	}
-
-	public UF getUf() {
-		return uf;
-	}
-
-	public void setUf(UF uf) {
-		this.uf = uf;
-	}
-
-	public Usuario getUsuario() {
-		return usuario;
-	}
-
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
-	}
-
-	public Gerente getGerente() {
-		return gerente;
-	}
-
-	public void setGerente(Gerente gerente) {
-		this.gerente = gerente;
-	}
-	
-	
-	
-	
+	@Column(nullable = false)
+	private Boolean situacao;
 }
