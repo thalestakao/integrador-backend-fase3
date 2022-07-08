@@ -2,9 +2,15 @@ package br.com.icarros.icontas.base;
 
 import java.util.Map;
 
-import org.springframework.http.HttpStatus;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
 
 
+@Builder
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@Getter
 public class ServerSideResponse<T> {
 
 	private T dado;
@@ -13,16 +19,10 @@ public class ServerSideResponse<T> {
 	
 	private String mensagem;
 	
-	private long timestamp;
+	@Builder.Default
+	private long timestamp = System.currentTimeMillis();
 	
 	private int statusCode;
 	
-	
-	private ServerSideResponse(T dado,  String mensagem, HttpStatus status) {
-		this.dado = dado;
-		this.mensagem = mensagem;
-		this.timestamp = System.currentTimeMillis();
-		this.statusCode = status.value();
-	}
 	
 }

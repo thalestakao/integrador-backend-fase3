@@ -22,8 +22,6 @@ import lombok.Data;
 @Table(name = "tb_correntista")
 public class Correntista extends AbstractEntity implements Serializable {
 	
-	
-	
 	/**
 	 * 
 	 */
