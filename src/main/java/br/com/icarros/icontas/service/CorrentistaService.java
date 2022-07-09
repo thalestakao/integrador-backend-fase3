@@ -3,7 +3,9 @@ package br.com.icarros.icontas.service;
 import br.com.icarros.icontas.dto.request.CorrentistaRequest;
 import br.com.icarros.icontas.dto.response.CorrentistaResponse;
 import br.com.icarros.icontas.entity.Correntista;
+import br.com.icarros.icontas.entity.Gerente;
 import br.com.icarros.icontas.exception.CorrentistaJaAtivoException;
+import br.com.icarros.icontas.exception.GerenteInexistenteException;
 import br.com.icarros.icontas.exception.RegraDeNegocioException;
 import br.com.icarros.icontas.repository.CorrentistaRepository;
 import br.com.icarros.icontas.repository.GerenteRepository;
@@ -33,10 +35,13 @@ public class CorrentistaService {
                throw  new CorrentistaJaAtivoException("Esse correntista já possui um cadastro ativo.");
          }
 
-        gerenteRepository.findByCpf(correntistaRequest.getGerente().getCpf())
-                .orElseThrow(() -> new RegraDeNegocioException("Gerente informado não encontrado."));
+        Gerente gerente = gerenteRepository.findByCpf(correntistaRequest.getGerente().cpf)
+                .orElseThrow(() -> new GerenteInexistenteException("Gerente informado não encontrado."));
 
-        Correntista newCorrentista = correntistaRepository.save(fromDTO(correntistaRequest));
+        correntista = Optional.ofNullable(fromDTO(correntistaRequest));
+        correntista.get().setGerente(gerente);
+
+        Correntista newCorrentista = correntistaRepository.save(correntista.get());
         
         return toResponse(newCorrentista);
     }
