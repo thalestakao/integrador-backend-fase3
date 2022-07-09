@@ -16,39 +16,39 @@ import lombok.Data;
 @Data
 public class CorrentistaRequest {
 	
-	@CPF
+	@CPF(message = "cpf inválido")
     private String cpf;
 	
-	@NotBlank
+	@NotBlank(message = "agência é um campo obrigatório")
     private String agencia;
 
-	@NotBlank
+	@NotBlank(message = "conta é um campo obrigatório")
     private String conta;
 
-	@NotBlank
+	@NotBlank(message = "nome é um campo obrigatório")
     private String nome;
 
-    @Email
+    @Email(message = "email inválido.")
     private String email;
 
-    @NotBlank
+    @NotBlank(message ="telefone inválido.")
     @Pattern(regexp = "(\\d{2})\\d{9}")
     private String telefone;
 
-    @NotBlank
+    @NotBlank(message = "endereco inválido.")
     private String endereco;
 
-    @NotBlank
+    @NotBlank(message = "cep inválido.")
     @Pattern(regexp = "\\d{5}-\\d{3}")
     private String cep;
 
-    @NotBlank
+    @NotBlank(message = "bairro é um campo obrigatório")
     private String bairro;
 
-    @NotBlank
+    @NotBlank(message = "cidade é um campo obrigatório")
     private String cidade;  
     
-    @NotNull
+    @NotNull(message = "uf é um campo obrigatório")
     @Enumerated(EnumType.STRING)
     private UF uf;
 
