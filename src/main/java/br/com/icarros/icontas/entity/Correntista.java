@@ -15,8 +15,10 @@ import javax.persistence.Table;
 import br.com.icarros.icontas.entity.enums.UF;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @AllArgsConstructor
+@NoArgsConstructor
 @Data
 @Entity
 @Table(name = "tb_correntista")

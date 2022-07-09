@@ -7,6 +7,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
+import lombok.Builder;
 import org.hibernate.validator.constraints.br.CPF;
 
 import br.com.icarros.icontas.entity.Gerente;
@@ -52,7 +53,11 @@ public class CorrentistaRequest {
     @Enumerated(EnumType.STRING)
     private UF uf;
 
-    private Gerente gerente;
+    private GerenteCorrentistaRequest gerente;
 
-    private Boolean situacao;
+    private Boolean situacao = true;
+
+    public static class GerenteCorrentistaRequest{
+        public String cpf;
+    }
 }

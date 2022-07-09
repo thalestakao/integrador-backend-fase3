@@ -32,11 +32,10 @@ public class CorrentistaController {
 		
 		CorrentistaResponse correntistaResponse;		
 
-
 		correntistaResponse = correntistaService.create(correntistaRequest);
 
 		ServerSideResponse<CorrentistaResponse> ssr = ServerSideResponse.<CorrentistaResponse>builder()
-				.dado(null).statusCode(HttpStatus.CREATED.value()).build();
+				.dado(correntistaResponse).statusCode(HttpStatus.CREATED.value()).build();
 
 		return new ResponseEntity<ServerSideResponse<CorrentistaResponse>>(ssr, HttpStatus.CREATED);
 
