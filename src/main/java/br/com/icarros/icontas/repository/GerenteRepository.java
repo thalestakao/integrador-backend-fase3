@@ -8,4 +8,5 @@ import java.util.Optional;
 public interface GerenteRepository extends CrudRepository<Gerente, Long> {
 
     public Optional<Gerente> findByCpf (String cpf);
+
 }
