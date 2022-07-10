@@ -14,12 +14,14 @@ import javax.persistence.Table;
 
 import br.com.icarros.icontas.entity.enums.UF;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+@Builder
 @Entity
 @Table(name = "tb_correntista")
 public class Correntista extends AbstractEntity implements Serializable {

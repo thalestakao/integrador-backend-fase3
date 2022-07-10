@@ -7,14 +7,16 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
-import lombok.Builder;
 import org.hibernate.validator.constraints.br.CPF;
 
-import br.com.icarros.icontas.entity.Gerente;
 import br.com.icarros.icontas.entity.enums.UF;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 
 @Data
+@Builder
+@AllArgsConstructor
 public class CorrentistaRequest {
 	
 	@CPF(message = "cpf inválido")
@@ -57,6 +59,8 @@ public class CorrentistaRequest {
 
     private Boolean situacao = true;
 
+    @Builder
+    @AllArgsConstructor
     public static class GerenteCorrentistaRequest{
         public String cpf;
     }

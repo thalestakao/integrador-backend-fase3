@@ -14,7 +14,7 @@ import br.com.icarros.icontas.repository.UsuarioRepository;
 @Component
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-	private static final String USUARIO_NAO_ENCONTRADO = "Usuário não encontrato na tentativa de login.";
+	private static final String USUARIO_NAO_ENCONTRADO = "Dados de login inválidos.";
 
 	private final UsuarioRepository usuarioRepository;
 

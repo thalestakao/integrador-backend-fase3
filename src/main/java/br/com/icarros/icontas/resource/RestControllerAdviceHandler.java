@@ -5,8 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import br.com.icarros.icontas.exception.GerenteInexistenteException;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -16,6 +16,7 @@ import org.springframework.web.context.request.WebRequest;
 
 import br.com.icarros.icontas.base.ServerSideResponse;
 import br.com.icarros.icontas.exception.CorrentistaJaAtivoException;
+import br.com.icarros.icontas.exception.GerenteInexistenteException;
 
 @RestControllerAdvice
 public class RestControllerAdviceHandler {
@@ -30,6 +31,12 @@ public class RestControllerAdviceHandler {
 	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
 	public ServerSideResponse<?> gerenteInexiste(GerenteInexistenteException e, WebRequest request) {
 		return ServerSideResponse.builder().mensagem("Gerente informado não encontrado.").statusCode(HttpStatus.BAD_REQUEST.value()).build();
+	}
+	
+	@ExceptionHandler(BadCredentialsException.class)
+	@ResponseStatus(code = HttpStatus.UNAUTHORIZED)
+	public ServerSideResponse<?> dadosLoginInvalidos(BadCredentialsException e, WebRequest request) {
+		return ServerSideResponse.builder().mensagem(e.getMessage()).statusCode(HttpStatus.BAD_REQUEST.value()).build();
 	}
 
 	@ExceptionHandler(MethodArgumentNotValidException.class)
