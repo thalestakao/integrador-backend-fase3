@@ -27,7 +27,7 @@ public class LoginController {
 	@Autowired
 	private LoginService loginService;
 
-	@PostMapping(value = "/correntista/login", consumes = "application/json", produces = "application/json")
+	@PostMapping(value = "/login", consumes = "application/json", produces = "application/json")
 	public ResponseEntity<ServerSideResponse<TokenResponse>> loginCorrentista(
 			@RequestBody UsuarioRequest usuarioRequest) throws UsuarioEOuSenhaInvalidoException {
 		UsernamePasswordAuthenticationToken usuarioLogin = usuarioRequest.converter();
