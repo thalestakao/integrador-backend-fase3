@@ -5,12 +5,12 @@ import br.com.icarros.icontas.dto.response.CorrentistaResponse;
 import br.com.icarros.icontas.entity.Correntista;
 import br.com.icarros.icontas.entity.Gerente;
 import br.com.icarros.icontas.exception.CorrentistaJaAtivoException;
+import br.com.icarros.icontas.exception.CorrentistaNaoEcontradoException;
 import br.com.icarros.icontas.exception.GerenteInexistenteException;
 import br.com.icarros.icontas.exception.RegraDeNegocioException;
 import br.com.icarros.icontas.repository.CorrentistaRepository;
 import br.com.icarros.icontas.repository.GerenteRepository;
 import lombok.AllArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -24,34 +24,56 @@ public class CorrentistaService {
 
     private final GerenteRepository gerenteRepository;
 
-    private final ModelMapper modelMapper;
-
     @Transactional
 	public CorrentistaResponse create(CorrentistaRequest correntistaRequest) throws RegraDeNegocioException, CorrentistaJaAtivoException {
 
     	Optional<Correntista> correntista = correntistaRepository.findByCpf(correntistaRequest.getCpf());
-    	 
-    	 if (!correntista.isEmpty()){
+
+    	 if (correntista.isPresent()){
                throw  new CorrentistaJaAtivoException("Esse correntista já possui um cadastro ativo.");
          }
 
-        Gerente gerente = gerenteRepository.findByCpf(correntistaRequest.getGerente().cpf)
-                .orElseThrow(() -> new GerenteInexistenteException("Gerente informado não encontrado."));
+        validaNumeroConta(correntistaRequest.getConta());
 
-        correntista = Optional.ofNullable(fromDTO(correntistaRequest));
-        correntista.get().setGerente(gerente);
+        Gerente gerente = validaGerente(correntistaRequest);
 
-        Correntista newCorrentista = correntistaRepository.save(correntista.get());
-        
+        Correntista newCorrentista = fromDTO(correntistaRequest);
+        newCorrentista.setGerente(gerente);
+        correntistaRepository.save(newCorrentista);
         return toResponse(newCorrentista);
     }
-    
+
     private Correntista fromDTO(CorrentistaRequest request) {
-    	return modelMapper.map(request, Correntista.class);
+        return Correntista.builder()
+                .cpf(request.getCpf())
+                .agencia(request.getAgencia())
+                .conta(request.getConta())
+                .nome(request.getNome())
+                .email(request.getEmail())
+                .telefone(request.getTelefone())
+                .endereco(request.getEndereco())
+                .cep(request.getCep())
+                .bairro(request.getBairro())
+                .cidade(request.getCidade())
+                .uf(request.getUf())
+                .situacao(true)
+                .build();
     }
     
     private CorrentistaResponse toResponse(Correntista correntista) {
-    	return modelMapper.map(correntista, CorrentistaResponse.class);
+       return new CorrentistaResponse(correntista.getId());
     }
-   
+
+    public void validaNumeroConta(String numConta) throws RegraDeNegocioException {
+        Optional<Correntista> correntista = correntistaRepository.findByConta(numConta);
+
+        if(correntista.isPresent()){
+            throw new RegraDeNegocioException("Número da conta já cadastrado. Favor altera-lo.");
+        }
+    }
+
+    public Gerente validaGerente(CorrentistaRequest correntistaRequest) throws GerenteInexistenteException {
+        return gerenteRepository.findByCpf(correntistaRequest.getGerente().getCpf())
+                .orElseThrow(() -> new GerenteInexistenteException("Gerente informado não encontrado."));
+    }
 }

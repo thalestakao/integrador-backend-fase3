@@ -1,5 +1,10 @@
 package br.com.icarros.icontas.dto.request;
 
+import br.com.icarros.icontas.entity.enums.UF;
+import lombok.Builder;
+import lombok.Data;
+import org.hibernate.validator.constraints.br.CPF;
+
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.validation.constraints.Email;
@@ -7,14 +12,8 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
-import lombok.Builder;
-import org.hibernate.validator.constraints.br.CPF;
-
-import br.com.icarros.icontas.entity.Gerente;
-import br.com.icarros.icontas.entity.enums.UF;
-import lombok.Data;
-
 @Data
+@Builder
 public class CorrentistaRequest {
 	
 	@CPF(message = "cpf inválido")
@@ -55,9 +54,4 @@ public class CorrentistaRequest {
 
     private GerenteCorrentistaRequest gerente;
 
-    private Boolean situacao = true;
-
-    public static class GerenteCorrentistaRequest{
-        public String cpf;
-    }
 }
