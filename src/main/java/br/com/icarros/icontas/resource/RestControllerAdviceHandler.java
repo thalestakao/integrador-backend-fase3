@@ -17,6 +17,8 @@ import org.springframework.web.context.request.WebRequest;
 import br.com.icarros.icontas.base.ServerSideResponse;
 import br.com.icarros.icontas.exception.CorrentistaJaAtivoException;
 import br.com.icarros.icontas.exception.GerenteInexistenteException;
+import br.com.icarros.icontas.exception.RegraDeNegocioException;
+import br.com.icarros.icontas.exception.CorrentistaNaoEcontradoException;
 
 @RestControllerAdvice
 public class RestControllerAdviceHandler {
@@ -55,4 +57,15 @@ public class RestControllerAdviceHandler {
 				.statusCode(HttpStatus.BAD_REQUEST.value()).extra(errosDeValidacao).build();
 	}
 
+	@ExceptionHandler(RegraDeNegocioException.class)
+	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
+	public ServerSideResponse<?> regraDeNegocioException(RegraDeNegocioException e, WebRequest request) {
+		return ServerSideResponse.builder().mensagem(e.getMessage()).statusCode(HttpStatus.BAD_REQUEST.value()).build();
+	}
+
+	@ExceptionHandler(CorrentistaNaoEcontradoException.class)
+	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
+	public ServerSideResponse<?> correntistaNaoEcontradoException(CorrentistaNaoEcontradoException e, WebRequest request) {
+		return ServerSideResponse.builder().mensagem(e.getMessage()).statusCode(HttpStatus.NOT_FOUND.value()).build();
+	}
 }

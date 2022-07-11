@@ -13,6 +13,7 @@ import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+
 @Entity
 @Table(name = "tb_gerente")
 @AllArgsConstructor

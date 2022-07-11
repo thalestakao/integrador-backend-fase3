@@ -59,9 +59,5 @@ public class CorrentistaRequest {
 
     private Boolean situacao = true;
 
-    @Builder
-    @AllArgsConstructor
-    public static class GerenteCorrentistaRequest{
-        public String cpf;
-    }
+
 }
