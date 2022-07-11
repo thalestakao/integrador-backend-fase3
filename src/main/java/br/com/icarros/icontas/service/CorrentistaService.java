@@ -76,4 +76,17 @@ public class CorrentistaService {
         return gerenteRepository.findByCpf(correntistaRequest.getGerente().getCpf())
                 .orElseThrow(() -> new GerenteInexistenteException("Gerente informado não encontrado."));
     }
+
+    public CorrentistaResponse delete(String numConta) throws RegraDeNegocioException {
+        Correntista correntista = correntistaRepository.findByConta(numConta)
+                .orElseThrow(() -> new CorrentistaNaoEcontradoException("Correntista não encontrado"));
+
+        if (!correntista.getSituacao()){
+            throw new RegraDeNegocioException("Correntista Inativo");
+        }
+
+        correntista.setSituacao(false);
+        correntistaRepository.save(correntista);
+        return toResponse(correntista);
+    }
 }

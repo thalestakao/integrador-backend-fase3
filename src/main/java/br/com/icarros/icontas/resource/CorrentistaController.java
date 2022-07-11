@@ -36,4 +36,16 @@ public class CorrentistaController {
 		return new ResponseEntity<ServerSideResponse<CorrentistaResponse>>(ssr, HttpStatus.CREATED);
 
 	}
+
+	@DeleteMapping(path = "/{numConta}")
+	public ResponseEntity<ServerSideResponse<CorrentistaResponse>> delete(@PathVariable String numConta) throws RegraDeNegocioException {
+
+		CorrentistaResponse correntistaResponse;
+		correntistaResponse= correntistaService.delete(numConta);
+
+		ServerSideResponse<CorrentistaResponse> ssr = ServerSideResponse.<CorrentistaResponse>builder()
+				.dado(correntistaResponse).statusCode(HttpStatus.OK.value()).build();
+
+		return new ResponseEntity<ServerSideResponse<CorrentistaResponse>>(ssr, HttpStatus.OK);
+	}
 }
