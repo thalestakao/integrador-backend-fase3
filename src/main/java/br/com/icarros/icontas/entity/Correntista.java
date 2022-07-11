@@ -14,9 +14,11 @@ import javax.persistence.Table;
 
 import br.com.icarros.icontas.entity.enums.UF;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Data

@@ -1,5 +1,9 @@
 package br.com.icarros.icontas.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -8,6 +12,8 @@ import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+@Builder
+@AllArgsConstructor
 @Entity
 @Table(name = "tb_gerente")
 public class Gerente extends AbstractEntity implements Serializable {
