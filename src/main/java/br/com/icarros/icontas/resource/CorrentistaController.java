@@ -48,4 +48,17 @@ public class CorrentistaController {
 
 		return new ResponseEntity<ServerSideResponse<CorrentistaResponse>>(ssr, HttpStatus.OK);
 	}
+
+	@PutMapping(path = "/{numConta}")
+	public ResponseEntity<ServerSideResponse<CorrentistaResponse>> update(
+			@Valid @RequestBody CorrentistaRequest correntistaRequest, @PathVariable String numConta) throws RegraDeNegocioException {
+
+		CorrentistaResponse correntistaResponse;
+		correntistaResponse = correntistaService.update(correntistaRequest, numConta);
+
+		ServerSideResponse<CorrentistaResponse> ssr = ServerSideResponse.<CorrentistaResponse>builder()
+				.dado(correntistaResponse).statusCode(HttpStatus.OK.value()).build();
+
+		return new ResponseEntity<ServerSideResponse<CorrentistaResponse>>(ssr, HttpStatus.OK);
+	}
 }

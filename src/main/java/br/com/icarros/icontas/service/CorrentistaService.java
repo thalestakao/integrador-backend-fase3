@@ -89,4 +89,29 @@ public class CorrentistaService {
         correntistaRepository.save(correntista);
         return toResponse(correntista);
     }
+
+    public CorrentistaResponse update(CorrentistaRequest request, String numConta) throws RegraDeNegocioException {
+
+        Correntista correntista = correntistaRepository.findByConta(numConta)
+                .orElseThrow(() -> new CorrentistaNaoEcontradoException("Correntista não encontrado"));
+
+        Gerente gerente = validaGerente(request);
+
+        correntista.setCpf(request.getCpf());
+        correntista.setAgencia(request.getAgencia());
+        correntista.setConta(request.getConta());
+        correntista.setNome(request.getNome());
+        correntista.setEmail(request.getEmail());
+        correntista.setTelefone(request.getTelefone());
+        correntista.setEndereco(request.getEndereco());
+        correntista.setCep(request.getCep());
+        correntista.setBairro(request.getBairro());
+        correntista.setCidade(request.getCidade());
+        correntista.setUf(request.getUf());
+        correntista.setGerente(gerente);
+
+        correntistaRepository.save(correntista);
+
+        return toResponse(correntista);
+    }
 }
