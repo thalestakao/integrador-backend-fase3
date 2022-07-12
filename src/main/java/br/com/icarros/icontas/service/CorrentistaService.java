@@ -11,6 +11,7 @@ import br.com.icarros.icontas.dto.response.CorrentistaResponse;
 import br.com.icarros.icontas.entity.Correntista;
 import br.com.icarros.icontas.entity.Gerente;
 import br.com.icarros.icontas.exception.CorrentistaJaAtivoException;
+import br.com.icarros.icontas.exception.CorrentistaNaoEcontradoException;
 import br.com.icarros.icontas.exception.GerenteInexistenteException;
 import br.com.icarros.icontas.exception.RegraDeNegocioException;
 import br.com.icarros.icontas.repository.CorrentistaRepository;
