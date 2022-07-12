@@ -1,18 +1,21 @@
 package br.com.icarros.icontas.service;
 
 import java.lang.reflect.Field;
+
 import java.util.Map;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
 
 import org.modelmapper.ModelMapper;
+
 import org.springframework.stereotype.Service;
 import org.springframework.util.ReflectionUtils;
 
 import br.com.icarros.icontas.dto.request.GerenteRequest;
 import br.com.icarros.icontas.dto.response.GerenteResponse;
 import br.com.icarros.icontas.entity.Gerente;
+
 import br.com.icarros.icontas.repository.GerenteRepository;
 import lombok.AllArgsConstructor;
 
@@ -60,12 +63,5 @@ public class GerenteService {
     public GerenteResponse toDTO(Gerente entity) {
     	return modelMapper.map(entity, GerenteResponse.class);
     }
-	
-	
-	
-	
-	
-	
-	
 	
 }

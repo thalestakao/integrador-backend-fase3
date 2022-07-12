@@ -35,4 +35,3 @@ build/
 ### PROPERTIES FILE ###
 application-dev.properties
 application-dev.yml
-/bin/

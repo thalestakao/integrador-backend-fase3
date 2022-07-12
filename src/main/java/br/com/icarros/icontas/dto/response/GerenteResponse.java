@@ -1,5 +1,6 @@
 package br.com.icarros.icontas.dto.response;
 
+
 import lombok.Data;
 @Data
 public class GerenteResponse {
@@ -7,4 +8,5 @@ public class GerenteResponse {
     private String cpf;
     private String nome;    
     private String email;
+
 }

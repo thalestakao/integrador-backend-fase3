@@ -44,7 +44,4 @@ public class GerenteController {
 		return ResponseEntity.ok(body);
 	}
 	
-	
-	
-	
 }

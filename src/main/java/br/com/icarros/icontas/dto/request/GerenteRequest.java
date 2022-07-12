@@ -1,5 +1,6 @@
 package br.com.icarros.icontas.dto.request;
 
+
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.validation.constraints.Email;
@@ -24,12 +25,4 @@ public class GerenteRequest {
     @Email(message = "email inválido.")
     private String email;
 
-    
-
-
-
-
-
-
-   
 }
