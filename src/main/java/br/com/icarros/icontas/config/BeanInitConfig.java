@@ -56,9 +56,9 @@ public class BeanInitConfig {
 	}
 	
 	@Bean
-	public ModelMapper modelMapper() {
-	 return new ModelMapper();
+	public ModelMapper getModelMapper() {
+		return new ModelMapper();
 	}
-	
+
 
 }

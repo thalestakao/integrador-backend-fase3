@@ -32,9 +32,7 @@ public class GerenteService {
         this.correntistaRepository.save(fromDTO(correntistaRequest));
 
     }
-	public List<Gerente> getGerentes(){
-		 return this.gerenteRepository.findAll();
-	}
+
     
     public Correntista fromDTO(CorrentistaRequest request) {
     	return modelMapper.map(request, Correntista.class);

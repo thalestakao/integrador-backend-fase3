@@ -1,8 +1,14 @@
 package br.com.icarros.icontas.dto.request;
 
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+
+import lombok.Builder;
+import org.hibernate.validator.constraints.br.CPF;
 
 import br.com.icarros.icontas.entity.Gerente;
 import br.com.icarros.icontas.entity.enums.UF;
@@ -11,39 +17,47 @@ import lombok.Data;
 @Data
 public class CorrentistaRequest {
 	
-	@Size(min = 11, max = 11)
+	@CPF(message = "cpf inválido")
     private String cpf;
 	
-	@NotBlank
+	@NotBlank(message = "agência é um campo obrigatório")
     private String agencia;
 
-	@NotBlank
+	@NotBlank(message = "conta é um campo obrigatório")
     private String conta;
 
-	@NotBlank
+	@NotBlank(message = "nome é um campo obrigatório")
     private String nome;
 
-    @Email
+    @Email(message = "email inválido.")
     private String email;
 
-    @NotBlank
+    @NotBlank(message ="telefone inválido.")
+    @Pattern(regexp = "(\\d{2})\\d{9}")
     private String telefone;
 
-    @NotBlank
+    @NotBlank(message = "endereco inválido.")
     private String endereco;
 
-    @NotBlank
+    @NotBlank(message = "cep inválido.")
+    @Pattern(regexp = "\\d{5}-\\d{3}")
     private String cep;
 
-    @NotBlank
+    @NotBlank(message = "bairro é um campo obrigatório")
     private String bairro;
 
-    @NotBlank
+    @NotBlank(message = "cidade é um campo obrigatório")
     private String cidade;  
     
-    @NotBlank
+    @NotNull(message = "uf é um campo obrigatório")
+    @Enumerated(EnumType.STRING)
     private UF uf;
 
-    private Gerente gerente;
+    private GerenteCorrentistaRequest gerente;
 
+    private Boolean situacao = true;
+
+    public static class GerenteCorrentistaRequest{
+        public String cpf;
+    }
 }

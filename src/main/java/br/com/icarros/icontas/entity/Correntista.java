@@ -15,14 +15,14 @@ import javax.persistence.Table;
 import br.com.icarros.icontas.entity.enums.UF;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @AllArgsConstructor
+@NoArgsConstructor
 @Data
 @Entity
 @Table(name = "tb_correntista")
 public class Correntista extends AbstractEntity implements Serializable {
-	
-	
 	
 	/**
 	 * 
@@ -72,5 +72,7 @@ public class Correntista extends AbstractEntity implements Serializable {
 	
 	@OneToMany(mappedBy = "correntista", fetch = FetchType.LAZY)
 	private List<Transacao> transacoes;
-	
+
+	@Column(nullable = false)
+	private Boolean situacao;
 }
