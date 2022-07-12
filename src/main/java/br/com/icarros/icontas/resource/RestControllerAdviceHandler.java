@@ -18,7 +18,7 @@ import br.com.icarros.icontas.base.ServerSideResponse;
 import br.com.icarros.icontas.exception.CorrentistaJaAtivoException;
 import br.com.icarros.icontas.exception.GerenteInexistenteException;
 import br.com.icarros.icontas.exception.RegraDeNegocioException;
-import br.com.icarros.icontas.exception.CorrentistaNaoEcontradoException;
+import br.com.icarros.icontas.exception.CorrentistaNaoEncontradoException;
 
 @RestControllerAdvice
 public class RestControllerAdviceHandler {
@@ -63,9 +63,9 @@ public class RestControllerAdviceHandler {
 		return ServerSideResponse.builder().mensagem(e.getMessage()).statusCode(HttpStatus.BAD_REQUEST.value()).build();
 	}
 
-	@ExceptionHandler(CorrentistaNaoEcontradoException.class)
+	@ExceptionHandler(CorrentistaNaoEncontradoException.class)
 	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
-	public ServerSideResponse<?> correntistaNaoEcontradoException(CorrentistaNaoEcontradoException e, WebRequest request) {
+	public ServerSideResponse<?> correntistaNaoEcontradoException(CorrentistaNaoEncontradoException e, WebRequest request) {
 		return ServerSideResponse.builder().mensagem(e.getMessage()).statusCode(HttpStatus.NOT_FOUND.value()).build();
 	}
 }

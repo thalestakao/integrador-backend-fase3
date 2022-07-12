@@ -11,7 +11,7 @@ import br.com.icarros.icontas.dto.response.CorrentistaResponse;
 import br.com.icarros.icontas.entity.Correntista;
 import br.com.icarros.icontas.entity.Gerente;
 import br.com.icarros.icontas.exception.CorrentistaJaAtivoException;
-import br.com.icarros.icontas.exception.CorrentistaNaoEcontradoException;
+import br.com.icarros.icontas.exception.CorrentistaNaoEncontradoException;
 import br.com.icarros.icontas.exception.GerenteInexistenteException;
 import br.com.icarros.icontas.exception.RegraDeNegocioException;
 import br.com.icarros.icontas.repository.CorrentistaRepository;
@@ -81,7 +81,7 @@ public class CorrentistaService {
 
     public CorrentistaResponse delete(String numConta) throws RegraDeNegocioException {
         Correntista correntista = correntistaRepository.findByConta(numConta)
-                .orElseThrow(() -> new CorrentistaNaoEcontradoException("Correntista não encontrado"));
+                .orElseThrow(() -> new CorrentistaNaoEncontradoException("Correntista não encontrado"));
 
         if (!correntista.getSituacao()){
             throw new RegraDeNegocioException("Correntista Inativo");
@@ -95,7 +95,7 @@ public class CorrentistaService {
     public CorrentistaResponse update(CorrentistaRequest request, String numConta) throws RegraDeNegocioException {
 
         Correntista correntista = correntistaRepository.findByConta(numConta)
-                .orElseThrow(() -> new CorrentistaNaoEcontradoException("Correntista não encontrado"));
+                .orElseThrow(() -> new CorrentistaNaoEncontradoException("Correntista não encontrado"));
 
         Gerente gerente = validaGerente(request);
 

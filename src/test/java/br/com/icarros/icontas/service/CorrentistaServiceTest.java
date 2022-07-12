@@ -6,7 +6,7 @@ import br.com.icarros.icontas.dto.response.CorrentistaResponse;
 import br.com.icarros.icontas.entity.Correntista;
 import br.com.icarros.icontas.entity.Gerente;
 import br.com.icarros.icontas.entity.enums.UF;
-import br.com.icarros.icontas.exception.CorrentistaNaoEcontradoException;
+import br.com.icarros.icontas.exception.CorrentistaNaoEncontradoException;
 import br.com.icarros.icontas.exception.RegraDeNegocioException;
 import br.com.icarros.icontas.repository.CorrentistaRepository;
 import br.com.icarros.icontas.repository.GerenteRepository;
@@ -97,7 +97,7 @@ public class CorrentistaServiceTest {
     public void testDeletaCorrentista_CorrentistaNaoEcontradoException(){
         when(correntistaRepository.findByConta(anyString())).thenReturn(Optional.empty());
 
-        assertThrows(CorrentistaNaoEcontradoException.class,
+        assertThrows(CorrentistaNaoEncontradoException.class,
                 () -> {
                     correntistaService.delete("12345");
                 }
