@@ -81,6 +81,63 @@ public class CorrentistaServiceTest {
         );
     }
 
+    @Test
+    public void testDeletaCorrentista_Sucesso() throws RegraDeNegocioException {
+        Correntista stubCorrentista = stubCorrentista();
+        stubCorrentista.setSituacao(true);
+        when(correntistaRepository.findByConta(anyString())).thenReturn(Optional.of(stubCorrentista));
+
+        correntistaService.delete("12345");
+
+        verify(correntistaRepository).findByConta(anyString());
+        assertEquals(false, stubCorrentista.getSituacao());
+    }
+
+    @Test
+    public void testDeletaCorrentista_CorrentistaNaoEcontradoException(){
+        when(correntistaRepository.findByConta(anyString())).thenReturn(Optional.empty());
+
+        assertThrows(CorrentistaNaoEcontradoException.class,
+                () -> {
+                    correntistaService.delete("12345");
+                }
+        );
+    }
+
+    @Test
+    public void testDeletaCorrentista_RegraDeNegocioException(){
+        Correntista stubCorrentista = stubCorrentista();
+        stubCorrentista.setSituacao(false);
+        when(correntistaRepository.findByConta(anyString())).thenReturn(Optional.ofNullable(stubCorrentista));
+
+        assertThrows(RegraDeNegocioException.class,
+                () -> {
+                    correntistaService.delete("12345");
+                }
+        );
+    }
+
+    @Test
+    public void testUpdateCorrentista_Sucesso() throws RegraDeNegocioException {
+        when(correntistaRepository.findByConta(anyString())).thenReturn(Optional.of(stubCorrentista()));
+        when(gerenteRepository.findByCpf(anyString())).thenReturn(Optional.ofNullable(stubGerente()));
+
+        CorrentistaResponse correntistaResponse = correntistaService.update(stubCorrentistaRequest(), "12345");
+
+        assertNotNull(correntistaResponse);
+    }
+
+    @Test
+    public void testUpdateCorrentista_CorrentistaNaoEcontradoException() throws RegraDeNegocioException {
+        when(correntistaRepository.findByConta(anyString())).thenReturn(Optional.empty());
+
+        assertThrows(RegraDeNegocioException.class,
+                () -> {
+                    correntistaService.update(stubCorrentistaRequest(), "1234");
+                }
+        );
+    }
+
     private Correntista stubCorrentista(){
         return Correntista.builder()
                 .cpf("73602050858")
