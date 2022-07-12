@@ -5,11 +5,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import br.com.icarros.icontas.base.ServerSideResponse;
 import br.com.icarros.icontas.dto.request.CorrentistaRequest;
@@ -39,5 +35,30 @@ public class CorrentistaController {
 
 		return new ResponseEntity<ServerSideResponse<CorrentistaResponse>>(ssr, HttpStatus.CREATED);
 
+	}
+
+	@DeleteMapping(path = "/{numConta}")
+	public ResponseEntity<ServerSideResponse<CorrentistaResponse>> delete(@PathVariable String numConta) throws RegraDeNegocioException {
+
+		CorrentistaResponse correntistaResponse;
+		correntistaResponse= correntistaService.delete(numConta);
+
+		ServerSideResponse<CorrentistaResponse> ssr = ServerSideResponse.<CorrentistaResponse>builder()
+				.dado(correntistaResponse).statusCode(HttpStatus.OK.value()).build();
+
+		return new ResponseEntity<ServerSideResponse<CorrentistaResponse>>(ssr, HttpStatus.OK);
+	}
+
+	@PutMapping(path = "/{numConta}")
+	public ResponseEntity<ServerSideResponse<CorrentistaResponse>> update(
+			@Valid @RequestBody CorrentistaRequest correntistaRequest, @PathVariable String numConta) throws RegraDeNegocioException {
+
+		CorrentistaResponse correntistaResponse;
+		correntistaResponse = correntistaService.update(correntistaRequest, numConta);
+
+		ServerSideResponse<CorrentistaResponse> ssr = ServerSideResponse.<CorrentistaResponse>builder()
+				.dado(correntistaResponse).statusCode(HttpStatus.OK.value()).build();
+
+		return new ResponseEntity<ServerSideResponse<CorrentistaResponse>>(ssr, HttpStatus.OK);
 	}
 }
