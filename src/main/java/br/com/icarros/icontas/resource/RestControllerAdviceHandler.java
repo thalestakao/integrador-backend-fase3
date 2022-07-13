@@ -5,14 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-<<<<<<< HEAD
-=======
-import br.com.icarros.icontas.exception.CorrentistaNaoEcontradoException;
-import br.com.icarros.icontas.exception.GerenteInexistenteException;
-import br.com.icarros.icontas.exception.RegraDeNegocioException;
-import br.com.icarros.icontas.exception.SaldoInsuficienteException;
-
->>>>>>> main
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.validation.ObjectError;
@@ -24,9 +16,10 @@ import org.springframework.web.context.request.WebRequest;
 
 import br.com.icarros.icontas.base.ServerSideResponse;
 import br.com.icarros.icontas.exception.CorrentistaJaAtivoException;
+import br.com.icarros.icontas.exception.CorrentistaNaoEncontradoException;
 import br.com.icarros.icontas.exception.GerenteInexistenteException;
 import br.com.icarros.icontas.exception.RegraDeNegocioException;
-import br.com.icarros.icontas.exception.CorrentistaNaoEncontradoException;
+import br.com.icarros.icontas.exception.SaldoInsuficienteException;
 
 @RestControllerAdvice
 public class RestControllerAdviceHandler {

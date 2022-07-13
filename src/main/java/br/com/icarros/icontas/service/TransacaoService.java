@@ -87,7 +87,9 @@ public class TransacaoService {
 		}
 
 		if(saldoAnterior.compareTo(saqueRequest.getVlrSaque())< 0) {
+			
 			throw new SaldoInsuficienteException("Saldo insuficiente.");
+			
 		}else {
 			BigDecimal saldoAtual = saldoAnterior.subtract(saqueRequest.getVlrSaque());
 
