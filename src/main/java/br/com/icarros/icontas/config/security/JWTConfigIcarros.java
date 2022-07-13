@@ -53,8 +53,7 @@ public class JWTConfigIcarros {
 		.anyRequest().authenticated()
 		.and()
 		.authenticationManager(authenticationManager)
-//		.addFilter(new CorrentistaJWTAuthenticationFilterProcess(authenticationManager))
-//		.addFilter(new TokenValidatorFilterProcess(authenticationManager))
+		.addFilter(new TokenValidatorFilterProcess(authenticationManager))
 		.sessionManagement()
 		.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 		return http.build();
