@@ -1,11 +1,12 @@
 package br.com.icarros.icontas.repository;
 
-import br.com.icarros.icontas.entity.Correntista;
-import org.springframework.data.repository.CrudRepository;
-
 import java.util.Optional;
 
-public interface CorrentistaRepository extends CrudRepository<Correntista, Long> {
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import br.com.icarros.icontas.entity.Correntista;
+
+public interface CorrentistaRepository extends JpaRepository<Correntista, Long> {
 
     public Optional<Correntista> findByCpf (String cpf);
 
