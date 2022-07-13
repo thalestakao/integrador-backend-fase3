@@ -1,13 +1,19 @@
 package br.com.icarros.icontas.service;
 
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
 
+import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import br.com.icarros.icontas.dto.request.CorrentistaRequest;
 import br.com.icarros.icontas.dto.response.CorrentistaResponse;
+import br.com.icarros.icontas.dto.response.ListaCorrentistaResponse;
 import br.com.icarros.icontas.entity.Correntista;
 import br.com.icarros.icontas.entity.Gerente;
 import br.com.icarros.icontas.exception.CorrentistaJaAtivoException;
@@ -26,6 +32,8 @@ public class CorrentistaService {
 
     private final GerenteRepository gerenteRepository;
 
+    private final ModelMapper mapper;
+    
     @Transactional
 	public CorrentistaResponse create(CorrentistaRequest correntistaRequest) throws RegraDeNegocioException, CorrentistaJaAtivoException {
 
@@ -41,29 +49,17 @@ public class CorrentistaService {
 
         Correntista newCorrentista = fromDTO(correntistaRequest);
         newCorrentista.setGerente(gerente);
+        newCorrentista.setSituacao(true);
         correntistaRepository.save(newCorrentista);
         return toResponse(newCorrentista);
     }
 
     private Correntista fromDTO(CorrentistaRequest request) {
-        return Correntista.builder()
-                .cpf(request.getCpf())
-                .agencia(request.getAgencia())
-                .conta(request.getConta())
-                .nome(request.getNome())
-                .email(request.getEmail())
-                .telefone(request.getTelefone())
-                .endereco(request.getEndereco())
-                .cep(request.getCep())
-                .bairro(request.getBairro())
-                .cidade(request.getCidade())
-                .uf(request.getUf())
-                .situacao(true)
-                .build();
+    	return mapper.map(request, Correntista.class);
     }
     
     private CorrentistaResponse toResponse(Correntista correntista) {
-       return new CorrentistaResponse(correntista.getId());
+    	return mapper.map(correntista, CorrentistaResponse.class);
     }
 
     public void validaNumeroConta(String numConta) throws RegraDeNegocioException {
@@ -97,6 +93,9 @@ public class CorrentistaService {
         Correntista correntista = correntistaRepository.findByConta(numConta)
                 .orElseThrow(() -> new CorrentistaNaoEncontradoException("Correntista não encontrado"));
 
+        validaNumeroConta(request.getConta());
+
+
         Gerente gerente = validaGerente(request);
 
         correntista.setCpf(request.getCpf());
@@ -116,4 +115,17 @@ public class CorrentistaService {
 
         return toResponse(correntista);
     }
+    public List<ListaCorrentistaResponse> listaCorrentista(){
+    	List<Correntista> listaCorrentistas = (List<Correntista>) correntistaRepository.findAll(Sort.by(Sort.Direction.ASC, "nome"));
+    	List<ListaCorrentistaResponse> listaCorrentistaResponse = new ArrayList();
+    	for(Correntista c: listaCorrentistas) {
+    		listaCorrentistaResponse.add(toListaResponse(c));
+    	}
+    	return listaCorrentistaResponse;
+    }
+    
+    private ListaCorrentistaResponse toListaResponse(Correntista correntista) {
+    	return mapper.map(correntista, ListaCorrentistaResponse.class);
+    }
+    
 }

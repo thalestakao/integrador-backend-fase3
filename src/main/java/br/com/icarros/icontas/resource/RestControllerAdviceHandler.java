@@ -5,6 +5,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+<<<<<<< HEAD
+=======
+import br.com.icarros.icontas.exception.CorrentistaNaoEcontradoException;
+import br.com.icarros.icontas.exception.GerenteInexistenteException;
+import br.com.icarros.icontas.exception.RegraDeNegocioException;
+import br.com.icarros.icontas.exception.SaldoInsuficienteException;
+
+>>>>>>> main
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.validation.ObjectError;
@@ -53,7 +61,7 @@ public class RestControllerAdviceHandler {
 
 		errosDeValidacao.put("detalhes", details);
 
-		return ServerSideResponse.builder().mensagem("Valição: parâmetros de entrada estão incorretos")
+		return ServerSideResponse.builder().mensagem("Validação: parâmetros de entrada estão incorretos")
 				.statusCode(HttpStatus.BAD_REQUEST.value()).extra(errosDeValidacao).build();
 	}
 
@@ -67,5 +75,11 @@ public class RestControllerAdviceHandler {
 	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
 	public ServerSideResponse<?> correntistaNaoEcontradoException(CorrentistaNaoEncontradoException e, WebRequest request) {
 		return ServerSideResponse.builder().mensagem(e.getMessage()).statusCode(HttpStatus.NOT_FOUND.value()).build();
+	}
+	
+	@ExceptionHandler(SaldoInsuficienteException.class)
+	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
+	public ServerSideResponse<?> saldoInsuficienteException(SaldoInsuficienteException e, WebRequest request) {
+		return ServerSideResponse.builder().mensagem("Você não possui saldo suficiente").statusCode(HttpStatus.BAD_REQUEST.value()).build();
 	}
 }
