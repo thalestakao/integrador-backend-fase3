@@ -1,8 +1,11 @@
 package br.com.icarros.icontas.dto.request;
 
 import br.com.icarros.icontas.entity.enums.UF;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import org.hibernate.validator.constraints.br.CPF;
 
 import javax.persistence.EnumType;
@@ -14,6 +17,8 @@ import javax.validation.constraints.Pattern;
 
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class CorrentistaRequest {
 	
 	@CPF(message = "cpf inválido")
