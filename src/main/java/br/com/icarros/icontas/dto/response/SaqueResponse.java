@@ -11,8 +11,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class DepositaResponse {
+public class SaqueResponse {
 	
 	private BigDecimal valor;
-	
+	private BigDecimal saldoAtual;
+
 }
