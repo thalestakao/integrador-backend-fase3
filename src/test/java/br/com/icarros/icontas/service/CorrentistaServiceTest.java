@@ -182,7 +182,6 @@ public class CorrentistaServiceTest {
                 .nome("PESSOA_2")
                 .email("pessoa2@icarros.com")
                 .cpf("04027512057")
-                .senha("1234")
                 .correntistas(null)
                 .build();
     }

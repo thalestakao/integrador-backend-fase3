@@ -32,9 +32,6 @@ public class Gerente extends AbstractEntity implements Serializable {
 	@Column(nullable = false, unique = true)
 	private String cpf;
 	
-	@Column(nullable = false)
-	private String senha;
-	
 	@OneToMany(mappedBy = "gerente")
 	private List<Correntista> correntistas;
 	
@@ -66,13 +63,7 @@ public class Gerente extends AbstractEntity implements Serializable {
 		this.cpf = cpf;
 	}
 
-	public String getSenha() {
-		return senha;
-	}
 
-	public void setSenha(String senha) {
-		this.senha = senha;
-	}
 
 	public List<Correntista> getCorrentistas() {
 		return correntistas;
