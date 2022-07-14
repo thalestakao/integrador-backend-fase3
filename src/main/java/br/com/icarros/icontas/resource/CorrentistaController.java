@@ -1,15 +1,25 @@
 package br.com.icarros.icontas.resource;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import br.com.icarros.icontas.base.ServerSideResponse;
 import br.com.icarros.icontas.dto.request.CorrentistaRequest;
 import br.com.icarros.icontas.dto.response.CorrentistaResponse;
+import br.com.icarros.icontas.dto.response.ListaCorrentistaResponse;
 import br.com.icarros.icontas.exception.CorrentistaJaAtivoException;
 import br.com.icarros.icontas.exception.RegraDeNegocioException;
 import br.com.icarros.icontas.service.CorrentistaService;
@@ -61,4 +71,14 @@ public class CorrentistaController {
 
 		return new ResponseEntity<ServerSideResponse<CorrentistaResponse>>(ssr, HttpStatus.OK);
 	}
+	
+	@GetMapping
+	public List<ListaCorrentistaResponse> listaCorrentista(){
+		
+		return correntistaService.listaCorrentista();
+	}
+//	public Page<CorrentistaRequest> listaCorrentista(@PageableDefault(sort = "nome", direction = Direction.DESC, page = 0, size = 10) Pageable paginacao){
+//		Page<CorrentistaRequest> listaCorrentista = correntistaService.findBy
+//		return 		
+//	}
 }

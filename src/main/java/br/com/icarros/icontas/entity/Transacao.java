@@ -10,10 +10,19 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import br.com.icarros.icontas.dto.request.DepositaRequest;
 import br.com.icarros.icontas.entity.enums.TipoOperacao;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name="tb_transacao")
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Transacao extends AbstractEntity implements Serializable {
 	
 	/**
@@ -36,9 +45,6 @@ public class Transacao extends AbstractEntity implements Serializable {
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "correntista_id")
 	private Correntista correntista;
-	
-	public Transacao() {
-	}
 	
 	public Transacao(BigDecimal valor, BigDecimal saldoAnterior, BigDecimal saldoAtual, TipoOperacao tipoOperacao) {
 		super();
