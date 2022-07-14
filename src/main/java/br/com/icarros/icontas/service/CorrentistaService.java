@@ -53,7 +53,7 @@ public class CorrentistaService {
         return toResponse(newCorrentista);
     }
 
-    private Correntista fromDTO(CorrentistaRequest request) {
+    public Correntista fromDTO(CorrentistaRequest request) {
     	return mapper.map(request, Correntista.class);
     }
     
