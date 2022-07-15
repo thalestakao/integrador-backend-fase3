@@ -9,5 +9,6 @@ import br.com.icarros.icontas.entity.Transacao;
 public interface TransacaoRepository extends JpaRepository<Transacao, Long> {
 	
 	public Optional<Transacao> findTopByCorrentistaIdOrderByIdDesc (Long id);
-	
+
+	public Optional<Transacao> findByCorrentista(Long id);
 }

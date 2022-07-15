@@ -20,9 +20,11 @@ import com.auth0.jwt.exceptions.SignatureVerificationException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 
 import br.com.icarros.icontas.base.ServerSideResponse;
+import br.com.icarros.icontas.exception.CampoNaoExistente;
 import br.com.icarros.icontas.exception.CorrentistaJaAtivoException;
 import br.com.icarros.icontas.exception.CorrentistaNaoEncontradoException;
 import br.com.icarros.icontas.exception.GerenteInexistenteException;
+import br.com.icarros.icontas.exception.GerenteJaAtivo;
 import br.com.icarros.icontas.exception.RegraDeNegocioException;
 import br.com.icarros.icontas.exception.SaldoInsuficienteException;
 import br.com.icarros.icontas.exception.UsuarioDesativadoException;
@@ -30,11 +32,22 @@ import br.com.icarros.icontas.exception.UsuarioSemRoleException;
 
 @RestControllerAdvice
 public class RestControllerAdviceHandler {
-
+	
 	@ExceptionHandler(CorrentistaJaAtivoException.class)
 	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
 	public ServerSideResponse<?> correntistaJaExiste(CorrentistaJaAtivoException e, WebRequest request) {
 		return ServerSideResponse.builder().mensagem("Este correntista já existe").statusCode(HttpStatus.BAD_REQUEST.value()).build();
+	}
+	@ExceptionHandler(CampoNaoExistente.class)
+	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
+	public ServerSideResponse<?> campoNaoExiste(CampoNaoExistente e, WebRequest request) {
+		return ServerSideResponse.builder().mensagem(e.getMessage()).statusCode(HttpStatus.BAD_REQUEST.value()).build();
+	}
+	
+	@ExceptionHandler(GerenteJaAtivo.class)
+	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
+	public ServerSideResponse<?> gerenteJaExiste(GerenteJaAtivo e, WebRequest request) {
+		return ServerSideResponse.builder().mensagem("Este gerente já existe").statusCode(HttpStatus.BAD_REQUEST.value()).build();
 	}
 
 	@ExceptionHandler(GerenteInexistenteException.class)

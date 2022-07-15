@@ -3,6 +3,7 @@ package br.com.icarros.icontas.service;
 import java.math.BigDecimal;
 import java.util.Optional;
 
+import br.com.icarros.icontas.dto.response.SaldoResponse;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -38,7 +39,7 @@ public class TransacaoService {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
 		String username = authentication.getName();
-		
+
 		Correntista correntista = correntistaRepository.findByConta(username)
 				.orElseThrow(() -> new CorrentistaNaoEncontradoException("Correntista não encontrado"));
 
@@ -74,7 +75,7 @@ public class TransacaoService {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
 		String username = authentication.getName();
-		System.out.println(username);
+
 		Correntista correntista = correntistaRepository.findByConta(username)
 				.orElseThrow(() -> new CorrentistaNaoEncontradoException("Correntista não encontrado"));
 
@@ -104,10 +105,29 @@ public class TransacaoService {
 			Transacao transacao = transacaoRepository.save(saque);
 			return toResponseSaque(saque);
 		}
-
 	}
 
 	private SaqueResponse toResponseSaque(Transacao saque) {
 		return mapper.map(saque, SaqueResponse.class);
 	}
+
+	public SaldoResponse saldo() throws RegraDeNegocioException{
+
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+		String username = authentication.getName();
+
+		Correntista correntista = correntistaRepository.findByConta(username)
+				.orElseThrow(() -> new CorrentistaNaoEncontradoException("Correntista não encontrado"));
+
+		Transacao transacaoCorrentistaOPT = transacaoRepository.findTopByCorrentistaIdOrderByIdDesc(correntista.getId())
+				.orElseThrow(() -> new RegraDeNegocioException("Conta sem nenhuma transação"));
+
+		return toResponseSaldo(transacaoCorrentistaOPT);
+		}
+
+	private SaldoResponse toResponseSaldo(Transacao transacao) {
+		return mapper.map(transacao, SaldoResponse.class);
+	}
+
 }
