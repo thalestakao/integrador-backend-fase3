@@ -1,4 +1,4 @@
-package br.com.icarros.icontas.service.integrated;
+package br.com.icarros.icontas.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -36,7 +36,7 @@ import br.com.icarros.icontas.service.LoginService;
 @SpringBootTest
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Teste de Integração Login Service")
-public class LoginServiceIntegratedTest {
+public class LoginServiceTest {
 
 	@InjectMocks
 	LoginService loginService;

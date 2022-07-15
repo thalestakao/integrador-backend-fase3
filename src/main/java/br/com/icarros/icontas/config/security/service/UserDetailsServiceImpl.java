@@ -6,12 +6,13 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import br.com.icarros.icontas.config.security.data.UserDetailsICarros;
 import br.com.icarros.icontas.entity.Usuario;
 import br.com.icarros.icontas.repository.UsuarioRepository;
 
-@Component
+@Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
 	private static final String USUARIO_NAO_ENCONTRADO = "Dados de login inválidos.";

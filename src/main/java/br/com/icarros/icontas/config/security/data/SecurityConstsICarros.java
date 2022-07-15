@@ -13,8 +13,9 @@ public class SecurityConstsICarros {
 	public static final String TOKEN_PREFIXO = "Bearer ";
 	public static final String HEADER_ATRIBUTO = "Authorization";
 	public static final String SIGN_UP_CORRENTISTA_URL = "/login";
+	public static final String GERENTE_URL = "/gerente/**";
 	public static final String ALLOWED_URL[] = { "/swagger-ui/**", "/v2/api-docs", "/v3/api-docs/", "/configuration/ui",
-			"/swagger-resources/**", "/configuration/security", "/webjars/**", "/actuator/**", SIGN_UP_CORRENTISTA_URL };
+			"/swagger-resources/**", "/configuration/security", "/webjars/**", "/actuator/**", SIGN_UP_CORRENTISTA_URL, GERENTE_URL };
 
 	/**
 	 * Obtem o secret token a partir do application properties.
