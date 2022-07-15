@@ -35,3 +35,8 @@ build/
 ### PROPERTIES FILE ###
 application-dev.properties
 application-dev.yml
+
+### DOCKER CONFIG ###
+.env
+db_mysql
+logs
