@@ -30,6 +30,9 @@ public class Usuario extends AbstractEntity implements Serializable {
 	private Correntista correntista;
 	
 
+	@OneToOne(mappedBy = "usuario")
+	private Gerente gerente;
+	
 	public Usuario() {
 		// Construtor padrão
 	}
@@ -65,6 +68,14 @@ public class Usuario extends AbstractEntity implements Serializable {
 
 	public void setCorrentista(Correntista correntista) {
 		this.correntista = correntista;
+	}
+
+	public Gerente getGerente() {
+		return gerente;
+	}
+
+	public void setGerente(Gerente gerente) {
+		this.gerente = gerente;
 	}
 	
 }

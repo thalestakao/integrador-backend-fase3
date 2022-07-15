@@ -16,7 +16,7 @@ import br.com.icarros.icontas.dto.response.SaqueResponse;
 import br.com.icarros.icontas.entity.Correntista;
 import br.com.icarros.icontas.entity.Transacao;
 import br.com.icarros.icontas.entity.enums.TipoOperacao;
-import br.com.icarros.icontas.exception.CorrentistaNaoEcontradoException;
+import br.com.icarros.icontas.exception.CorrentistaNaoEncontradoException;
 import br.com.icarros.icontas.exception.RegraDeNegocioException;
 import br.com.icarros.icontas.exception.SaldoInsuficienteException;
 import br.com.icarros.icontas.repository.CorrentistaRepository;
@@ -41,7 +41,7 @@ public class TransacaoService {
 		String username = authentication.getName();
 
 		Correntista correntista = correntistaRepository.findByConta(username)
-				.orElseThrow(() -> new CorrentistaNaoEcontradoException("Correntista não encontrado"));
+				.orElseThrow(() -> new CorrentistaNaoEncontradoException("Correntista não encontrado"));
 
 		Optional<Transacao> ultimaTransacaoCorrentistaOPT = transacaoRepository.findTopByCorrentistaIdOrderByIdDesc(correntista.getId());
 
@@ -77,7 +77,7 @@ public class TransacaoService {
 		String username = authentication.getName();
 
 		Correntista correntista = correntistaRepository.findByConta(username)
-				.orElseThrow(() -> new CorrentistaNaoEcontradoException("Correntista não encontrado"));
+				.orElseThrow(() -> new CorrentistaNaoEncontradoException("Correntista não encontrado"));
 
 		Optional<Transacao> ultimaTransacaoCorrentistaOPT = transacaoRepository.findTopByCorrentistaIdOrderByIdDesc(correntista.getId());
 
@@ -88,7 +88,9 @@ public class TransacaoService {
 		}
 
 		if(saldoAnterior.compareTo(saqueRequest.getVlrSaque())< 0) {
+			
 			throw new SaldoInsuficienteException("Saldo insuficiente.");
+			
 		}else {
 			BigDecimal saldoAtual = saldoAnterior.subtract(saqueRequest.getVlrSaque());
 
@@ -116,7 +118,7 @@ public class TransacaoService {
 		String username = authentication.getName();
 
 		Correntista correntista = correntistaRepository.findByConta(username)
-				.orElseThrow(() -> new CorrentistaNaoEcontradoException("Correntista não encontrado"));
+				.orElseThrow(() -> new CorrentistaNaoEncontradoException("Correntista não encontrado"));
 
 		Transacao transacaoCorrentistaOPT = transacaoRepository.findTopByCorrentistaIdOrderByIdDesc(correntista.getId())
 				.orElseThrow(() -> new RegraDeNegocioException("Conta sem nenhuma transação"));

@@ -1,19 +1,19 @@
 package br.com.icarros.icontas.dto.request;
 
-import br.com.icarros.icontas.entity.enums.UF;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
-import org.hibernate.validator.constraints.br.CPF;
-
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+
+import org.hibernate.validator.constraints.br.CPF;
+
+import br.com.icarros.icontas.entity.enums.UF;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Builder
@@ -58,5 +58,8 @@ public class CorrentistaRequest {
     private UF uf;
 
     private GerenteCorrentistaRequest gerente;
+
+    private Boolean situacao = true;
+
 
 }

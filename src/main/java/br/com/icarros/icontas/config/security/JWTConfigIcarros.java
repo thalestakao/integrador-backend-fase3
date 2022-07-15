@@ -12,68 +12,71 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.servlet.HandlerExceptionResolver;
 
 import br.com.icarros.icontas.config.security.data.SecurityConstsICarros;
-import br.com.icarros.icontas.config.security.filter.CorrentistaJWTAuthenticationFilterProcess;
 import br.com.icarros.icontas.config.security.filter.TokenValidatorFilterProcess;
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+@EnableGlobalMethodSecurity(securedEnabled = true)
 public class JWTConfigIcarros {
 
-	
-    private UserDetailsService userDetailsService;
-	
+	private UserDetailsService userDetailsService;
+
 	private PasswordEncoder encoder;
-	
-	
-	public JWTConfigIcarros(UserDetailsService userDetailsService, PasswordEncoder encoder) {
+
+	// handler necessário para garantir que o ControllerAdvice
+	// manipule as exceções lançadas no filtro TokenValidatorFilterProcess.
+	private HandlerExceptionResolver handlerExceptionResolver;
+
+	/**
+	 * Cria a configuração de segurança (autenticação e autorização) por meio da DI
+	 * da implementação do UserDetailsSerice, PasswordEncoder e
+	 * HandlerExceptionResolver
+	 * 
+	 * @param userDetailsService       O contrato do serviço de busca de usuário por
+	 *                                 nome (username/agência).
+	 * @param encoder                  O contrato de codificação da senha.
+	 * @param handlerExceptionResolver O contrato da manipulação de exceção para
+	 *                                 garantir que as exceções sejam interceptadas
+	 *                                 pelo <code>RestControlerAdvice</code>. Sua
+	 *                                 implementação é passada para o
+	 *                                 <code>TokenValidatorFilterProcess</code>
+	 *                                 poder lançar as exceções em cenários
+	 *                                 relacionados ao token, como por exemplo,
+	 *                                 expiração do token.
+	 */
+	public JWTConfigIcarros(UserDetailsService userDetailsService, PasswordEncoder encoder,
+			HandlerExceptionResolver handlerExceptionResolver) {
 		this.userDetailsService = userDetailsService;
 		this.encoder = encoder;
+		this.handlerExceptionResolver = handlerExceptionResolver;
 	}
-	
+
 	/**
-	 * Confiruação de segurança, especificando as URLs de logins e os respectivos filtros
-	 * para a gestão dos tokens.
+	 * Confiruação de segurança, especificando as URLs de logins e os respectivos
+	 * filtros para a gestão dos tokens.
+	 * 
 	 * @return
 	 */
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-		AuthenticationManagerBuilder authenticationManagerBuilder = http.getSharedObject(AuthenticationManagerBuilder.class);
+		AuthenticationManagerBuilder authenticationManagerBuilder = http
+				.getSharedObject(AuthenticationManagerBuilder.class);
 		authenticationManagerBuilder.userDetailsService(userDetailsService).passwordEncoder(encoder);
-        AuthenticationManager authenticationManager = authenticationManagerBuilder.build();
-        
+		AuthenticationManager authenticationManager = authenticationManagerBuilder.build();
+
 		http.csrf().disable().authorizeHttpRequests()
-		.antMatchers(HttpMethod.POST, SecurityConstsICarros.SIGN_UP_CORRENTISTA_URL).permitAll()
-		.antMatchers(SecurityConstsICarros.ALLOWED_URL).permitAll()
-		.anyRequest().authenticated()
-		.and()
-		.authenticationManager(authenticationManager)
-		.addFilter(new CorrentistaJWTAuthenticationFilterProcess(authenticationManager))
-		.addFilter(new TokenValidatorFilterProcess(authenticationManager))
-		.sessionManagement()
-		.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+				.antMatchers(SecurityConstsICarros.ALLOWED_URL).permitAll().antMatchers("/correntista/**")
+				.hasRole("GERENTE").antMatchers("/transacao/**").hasRole("CORRENTISTA").anyRequest().authenticated()
+				.and().authenticationManager(authenticationManager)
+				.addFilterBefore(new TokenValidatorFilterProcess(userDetailsService, handlerExceptionResolver),
+						UsernamePasswordAuthenticationFilter.class)
+				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 		return http.build();
-		
+
 	}
-	
-	/**
-	 * Configuração do CORS, liberada qualquer origem para testes.
-	 * @return
-	 */
-	@Bean
-    public WebMvcConfigurer corsConfigurer() {
-        return new WebMvcConfigurer() {
-            @Override
-            public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**")
-                        .allowedMethods("*");
-            }
-        };
-    }
-	
-	
+
 }
