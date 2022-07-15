@@ -33,9 +33,8 @@ public class GerenteController {
 	private GerenteService gereneteService;
 	
 	@PostMapping
-	public ResponseEntity<ServerSideResponse<GerenteResponse>>postGerente(@RequestBody @Valid GerenteRequest request,UriComponentsBuilder uriBuilder) throws GerenteJaAtivo{
+	public ResponseEntity<ServerSideResponse<GerenteResponse>>postGerente(@RequestBody @Valid GerenteRequest request) throws GerenteJaAtivo{
 		GerenteResponse body = gereneteService.createGerente(request);
-		URI uri = uriBuilder.path("gerente/{id}").buildAndExpand(body.getId()).toUri();
 		ServerSideResponse<GerenteResponse> ssr = ServerSideResponse.<GerenteResponse>builder()
 				.dado(body).statusCode(HttpStatus.CREATED.value()).build();
 		return new ResponseEntity<ServerSideResponse<GerenteResponse>>(ssr, HttpStatus.CREATED);

@@ -5,13 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
-import br.com.icarros.icontas.exception.CorrentistaNaoEcontradoException;
-import br.com.icarros.icontas.exception.GerenteInexistenteException;
-import br.com.icarros.icontas.exception.RegraDeNegocioException;
-import br.com.icarros.icontas.exception.SaldoInsuficienteException;
-
-
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -27,6 +20,8 @@ import br.com.icarros.icontas.exception.CorrentistaNaoEcontradoException;
 import br.com.icarros.icontas.exception.GerenteInexistenteException;
 import br.com.icarros.icontas.exception.GerenteJaAtivo;
 import br.com.icarros.icontas.exception.RegraDeNegocioException;
+import br.com.icarros.icontas.exception.SaldoInsuficienteException;
+import br.com.icarros.icontas.exception.UsuarioJaCriado;
 
 @RestControllerAdvice
 public class RestControllerAdviceHandler {
@@ -53,6 +48,11 @@ public class RestControllerAdviceHandler {
 	public ServerSideResponse<?> gerenteInexiste(GerenteInexistenteException e, WebRequest request) {
 		return ServerSideResponse.builder().mensagem("Gerente informado não encontrado.").statusCode(HttpStatus.BAD_REQUEST.value()).build();
 	}
+	@ExceptionHandler(UsuarioJaCriado.class)
+	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
+	public ServerSideResponse<?> gerenteInexiste(UsuarioJaCriado e, WebRequest request) {
+		return ServerSideResponse.builder().mensagem(e.getMessage()).statusCode(HttpStatus.BAD_REQUEST.value()).build();
+	}
 
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
@@ -75,6 +75,7 @@ public class RestControllerAdviceHandler {
 	public ServerSideResponse<?> regraDeNegocioException(RegraDeNegocioException e, WebRequest request) {
 		return ServerSideResponse.builder().mensagem(e.getMessage()).statusCode(HttpStatus.BAD_REQUEST.value()).build();
 	}
+
 
 	@ExceptionHandler(CorrentistaNaoEcontradoException.class)
 	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
