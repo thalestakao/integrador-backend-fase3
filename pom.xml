@@ -17,6 +17,29 @@
 	<properties>
 		<java.version>17</java.version>
 	</properties>
+	<profiles>
+		<profile>
+			<id>dev</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<spring.profiles.active>dev</spring.profiles.active>
+			</properties>
+		</profile>
+		<profile>
+			<id>test</id>
+			<properties>
+				<spring.profiles.active>test</spring.profiles.active>
+			</properties>
+		</profile>
+		<profile>
+			<id>prod</id>
+			<properties>
+				<spring.profiles.active>prod</spring.profiles.active>
+			</properties>
+		</profile>
+	</profiles>
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -64,7 +87,16 @@
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-validation</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
 			<scope>test</scope>
 		</dependency>
 		<!-- JWT dependency -->
@@ -94,22 +126,74 @@
 			<artifactId>logstash-logback-encoder</artifactId>
 			<version>7.0.1</version>
 		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-validation</artifactId>
-		</dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <scope>test</scope>
-        </dependency>
-    </dependencies>
+		
+	</dependencies>
 
 	<build>
+		<!-- 
+			Configurando o Maven para fazer a "filtragem" dos arquivos resources 
+			e permitir que a variável @spring.profiles.active@ declarada em
+			cada profile deste POM.xml (no início) seja atribuida ao arquivo
+			application.properties.
+			Ao executar "mvn clean package -PidDoProfile" o property correto será
+			carregado. Isso está sendo utilizado para o processo de build.
+			"mvn clean package -Pprod" 
+			
+		-->
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<!-- 
+				Configuração do relatório de teste. Incluído
+				após conversar com o Fábio Pereira.
+			-->
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.8.7</version>
+				<!-- Configuração para excluir classes do relatório -->
+				<configuration>
+					<excludes>
+						<exclude>br/com/icarros/icontas/resource/**</exclude>
+						<exclude>br/com/icarros/icontas/entity/**</exclude>
+						<exclude>br/com/icarros/icontas/IcontasApplication.class</exclude>
+						<exclude>br/com/icarros/icontas/entity/**</exclude>
+						<exclude>br/com/icarros/icontas/exception/**</exclude>
+						<exclude>br/com/icarros/icontas/repository/**</exclude>
+						<exclude>br/com/icarros/icontas/dto/**</exclude>
+						<exclude>br/com/icarros/icontas/base/**</exclude>
+						<exclude>br/com/icarros/icontas/config/*</exclude>
+						<exclude>br/com/icarros/icontas/config/swagger/**</exclude>
+						<exclude>br/com/icarros/icontas/config/security/*</exclude>
+						<exclude>br/com/icarros/icontas/config/security/data/**</exclude>
+						<exclude>br/com/icarros/icontas/config/security/filter/**</exclude>
+					</excludes>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>report</id>
+						<!--  definição em qual fase será executado o goal de report -->
+						<phase>test</phase>
+						<goals>
+							<goal>
+								report
+							</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
