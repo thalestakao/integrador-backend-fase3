@@ -66,7 +66,7 @@ public class TransacaoService {
 		return toResponseDeposita(transacao);
 	}
 
-	private DepositaResponse toResponseDeposita(Transacao deposita) {
+	public DepositaResponse toResponseDeposita(Transacao deposita) {
 		return mapper.map(deposita, DepositaResponse.class);
 	}
 
@@ -120,10 +120,12 @@ public class TransacaoService {
 		Correntista correntista = correntistaRepository.findByConta(username)
 				.orElseThrow(() -> new CorrentistaNaoEncontradoException("Correntista não encontrado"));
 
-		Transacao transacaoCorrentistaOPT = transacaoRepository.findTopByCorrentistaIdOrderByIdDesc(correntista.getId())
-				.orElseThrow(() -> new RegraDeNegocioException("Conta sem nenhuma transação"));
+		Optional<Transacao> transacaoCorrentistaOPT = transacaoRepository.findTopByCorrentistaIdOrderByIdDesc(correntista.getId());
 
-		return toResponseSaldo(transacaoCorrentistaOPT);
+		if(transacaoCorrentistaOPT.isPresent()){
+			return toResponseSaldo(transacaoCorrentistaOPT.get());
+		}
+			return new SaldoResponse(new BigDecimal(0));
 		}
 
 	private SaldoResponse toResponseSaldo(Transacao transacao) {

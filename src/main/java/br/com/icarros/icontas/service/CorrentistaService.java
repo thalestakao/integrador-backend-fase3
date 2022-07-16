@@ -54,27 +54,7 @@ public class CorrentistaService {
         return toResponse(newCorrentista);
     }
 
-    public Correntista fromDTO(CorrentistaRequest request) {
-    	return mapper.map(request, Correntista.class);
-    }
-    
-    private CorrentistaResponse toResponse(Correntista correntista) {
-    	return mapper.map(correntista, CorrentistaResponse.class);
-    }
-
-    public void validaNumeroConta(String numConta) throws RegraDeNegocioException {
-        Optional<Correntista> correntista = correntistaRepository.findByConta(numConta);
-
-        if(correntista.isPresent()){
-            throw new RegraDeNegocioException("Número da conta já cadastrado. Favor altera-lo.");
-        }
-    }
-
-    public Gerente validaGerente(CorrentistaRequest correntistaRequest) throws GerenteInexistenteException {
-        return gerenteRepository.findByCpf(correntistaRequest.getGerente().getCpf())
-                .orElseThrow(() -> new GerenteInexistenteException("Gerente informado não encontrado."));
-    }
-
+    @Transactional
     public CorrentistaResponse delete(String numConta) throws RegraDeNegocioException {
         Correntista correntista = correntistaRepository.findByConta(numConta)
                 .orElseThrow(() -> new CorrentistaNaoEncontradoException("Correntista não encontrado"));
@@ -88,6 +68,7 @@ public class CorrentistaService {
         return toResponse(correntista);
     }
 
+    @Transactional
     public CorrentistaResponse update(CorrentistaRequest request, String numConta) throws RegraDeNegocioException {
 
         Correntista correntista = correntistaRepository.findByConta(numConta)
@@ -115,6 +96,7 @@ public class CorrentistaService {
 
         return toResponse(correntista);
     }
+
     public List<ListaCorrentistaResponse> listaCorrentista(){
     	List<Correntista> listaCorrentistas = (List<Correntista>) correntistaRepository.findAll(Sort.by(Sort.Direction.ASC, "nome"));
     	List<ListaCorrentistaResponse> listaCorrentistaResponse = new ArrayList();
@@ -127,5 +109,26 @@ public class CorrentistaService {
     private ListaCorrentistaResponse toListaResponse(Correntista correntista) {
     	return mapper.map(correntista, ListaCorrentistaResponse.class);
     }
-    
+
+    public Correntista fromDTO(CorrentistaRequest request) {
+        return mapper.map(request, Correntista.class);
+    }
+
+    private CorrentistaResponse toResponse(Correntista correntista) {
+        return mapper.map(correntista, CorrentistaResponse.class);
+    }
+
+    public void validaNumeroConta(String numConta) throws RegraDeNegocioException {
+        Optional<Correntista> correntista = correntistaRepository.findByConta(numConta);
+
+        if(correntista.isPresent()){
+            throw new RegraDeNegocioException("Número da conta já cadastrado. Favor altera-lo.");
+        }
+    }
+
+    public Gerente validaGerente(CorrentistaRequest correntistaRequest) throws GerenteInexistenteException {
+        return gerenteRepository.findByCpf(correntistaRequest.getGerente().getCpf())
+                .orElseThrow(() -> new GerenteInexistenteException("Gerente informado não encontrado."));
+    }
+
 }

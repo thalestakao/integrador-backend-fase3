@@ -2,6 +2,7 @@ package br.com.icarros.icontas.service;
 
 import br.com.icarros.icontas.dto.request.CorrentistaRequest;
 import br.com.icarros.icontas.dto.request.GerenteCorrentistaRequest;
+import br.com.icarros.icontas.dto.response.CorrentistaResponse;
 import br.com.icarros.icontas.dto.response.ListaCorrentistaResponse;
 import br.com.icarros.icontas.entity.Correntista;
 import br.com.icarros.icontas.entity.Gerente;
@@ -10,14 +11,15 @@ import br.com.icarros.icontas.exception.CorrentistaNaoEncontradoException;
 import br.com.icarros.icontas.exception.RegraDeNegocioException;
 import br.com.icarros.icontas.repository.CorrentistaRepository;
 import br.com.icarros.icontas.repository.GerenteRepository;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Sort;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,46 +27,41 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
-@ExtendWith(MockitoExtension.class)
-public class CorrentistaServiceTest {
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = {
+        CorrentistaService.class,
+        ModelMapper.class
+})public class CorrentistaServiceJunitTest {
 
-    @InjectMocks
+    @Autowired
     private CorrentistaService correntistaService;
 
-    @Mock
+    @MockBean
     private CorrentistaRepository correntistaRepository;
 
-    @Mock
+    @MockBean
     private GerenteRepository gerenteRepository;
-
-    @Mock
-    private ModelMapper modelMapper;
-
-    Gerente gerente;
-
-    Correntista correntista;
 
     CorrentistaRequest correntistaRequest;
 
-    @BeforeEach
-    public void setup() {
-        correntista = stubCorrentista();
-        correntistaRequest = stubCorrentistaRequest();
-        gerente = stubGerente();
-    }
 
     @Test
     public void testCadastraCorrentista_Sucesso() throws RegraDeNegocioException {
+        correntistaRequest = stubCorrentistaRequest();
+
         when(correntistaRepository.findByCpf(anyString())).thenReturn(Optional.empty());
         when(correntistaRepository.findByConta(anyString())).thenReturn(Optional.empty());
         when(gerenteRepository.findByCpf(anyString())).thenReturn(Optional.ofNullable(stubGerente()));
-        when(correntistaService.fromDTO(correntistaRequest)).thenReturn(correntista);
 
         correntistaService.create(correntistaRequest);
 
-        verify(correntistaRepository).save(any());
+        ArgumentCaptor<Correntista> correntistaCapturado = ArgumentCaptor.forClass(Correntista.class);
+        verify(correntistaRepository).save(correntistaCapturado.capture());
+        Correntista correntistaSalvo = correntistaCapturado.getValue();
+        assertEquals(correntistaRequest.getNome(), correntistaSalvo.getNome());
     }
 
     @Test
@@ -94,10 +91,12 @@ public class CorrentistaServiceTest {
         stubCorrentista.setSituacao(true);
         when(correntistaRepository.findByConta(anyString())).thenReturn(Optional.of(stubCorrentista));
 
-        correntistaService.delete("12345");
+        correntistaService.delete(stubCorrentista.getConta());
 
-        verify(correntistaRepository).findByConta(anyString());
-        assertEquals(false, stubCorrentista.getSituacao());
+        ArgumentCaptor<Correntista> correntistaCapturado = ArgumentCaptor.forClass(Correntista.class);
+        verify(correntistaRepository).save(correntistaCapturado.capture());
+        Correntista correntistaSalvo = correntistaCapturado.getValue();
+        assertEquals(false, correntistaSalvo.getSituacao());
     }
 
     @Test
@@ -123,16 +122,20 @@ public class CorrentistaServiceTest {
                 }
         );
     }
-
     @Test
     public void testUpdateCorrentista_Sucesso() throws RegraDeNegocioException {
+        correntistaRequest = stubCorrentistaRequest();
+
         when(correntistaRepository.findByConta("123456")).thenReturn(Optional.of(stubCorrentista()));
         when(correntistaRepository.findByConta("12345")).thenReturn(Optional.empty());
         when(gerenteRepository.findByCpf(anyString())).thenReturn(Optional.ofNullable(stubGerente()));
 
-        correntistaService.update(stubCorrentistaRequest(), "123456");
+        correntistaService.update(correntistaRequest, "123456");
 
-        verify(correntistaRepository).save(any());
+        ArgumentCaptor<Correntista> correntistaCapturado = ArgumentCaptor.forClass(Correntista.class);
+        verify(correntistaRepository).save(correntistaCapturado.capture());
+        Correntista correntistaSalvo = correntistaCapturado.getValue();
+        assertEquals(correntistaRequest.getConta(), correntistaSalvo.getConta());
     }
 
     @Test
