@@ -126,20 +126,19 @@
 			<artifactId>logstash-logback-encoder</artifactId>
 			<version>7.0.1</version>
 		</dependency>
-		
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 
 	<build>
-		<!-- 
-			Configurando o Maven para fazer a "filtragem" dos arquivos resources 
-			e permitir que a variável @spring.profiles.active@ declarada em
-			cada profile deste POM.xml (no início) seja atribuida ao arquivo
-			application.properties.
-			Ao executar "mvn clean package -PidDoProfile" o property correto será
-			carregado. Isso está sendo utilizado para o processo de build.
-			"mvn clean package -Pprod" 
-			
-		-->
+		<!-- Configurando o Maven para fazer a "filtragem" dos arquivos resources 
+			e permitir que a variável @spring.profiles.active@ declarada em cada profile 
+			deste POM.xml (no início) seja atribuida ao arquivo application.properties. 
+			Ao executar "mvn clean package -PidDoProfile" o property correto será carregado. 
+			Isso está sendo utilizado para o processo de build. "mvn clean package -Pprod" -->
 		<resources>
 			<resource>
 				<directory>src/main/resources</directory>
@@ -151,10 +150,8 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
-			<!-- 
-				Configuração do relatório de teste. Incluído
-				após conversar com o Fábio Pereira.
-			-->
+			<!-- Configuração do relatório de teste. Incluído após conversar com o 
+				Fábio Pereira. -->
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
@@ -185,7 +182,7 @@
 					</execution>
 					<execution>
 						<id>report</id>
-						<!--  definição em qual fase será executado o goal de report -->
+						<!-- definição em qual fase será executado o goal de report -->
 						<phase>test</phase>
 						<goals>
 							<goal>
