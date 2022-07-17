@@ -31,11 +31,10 @@ import br.com.icarros.icontas.dto.request.UsuarioRequest;
 import br.com.icarros.icontas.entity.Usuario;
 import br.com.icarros.icontas.exception.UsuarioEOuSenhaInvalidoException;
 import br.com.icarros.icontas.repository.UsuarioRepository;
-import br.com.icarros.icontas.service.LoginService;
 
 @SpringBootTest
 @ExtendWith(MockitoExtension.class)
-@DisplayName("Teste de Integração Login Service")
+@DisplayName("Teste Login Service")	
 public class LoginServiceTest {
 
 	@InjectMocks
