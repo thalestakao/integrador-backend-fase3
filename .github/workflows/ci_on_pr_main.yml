@@ -25,4 +25,7 @@ jobs:
       run: mvn -B clean package -Ptest
   
   deploy-heroku:
-    - name: "Deploy no heroku para QA - H2"
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: deploy no heroku
