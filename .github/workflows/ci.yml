@@ -23,7 +23,7 @@ jobs:
         distribution: 'temurin'
         cache: maven
     - name: Build da aplicação com application-test
-      run: mvn -B clean package -Ptest
+      run: mvn -B clean test -Ptest
     - name: Build da aplicação com application-prod
       run: mvn -B clean package -DskipTests -Pprod
     - name: Build & push da imagem docker
