@@ -23,9 +23,3 @@ jobs:
         cache: maven
     - name: Build da aplicação com application-test
       run: mvn -B clean package -Ptest
-  
-  deploy-heroku:
-    runs-on: ubuntu-latest
-    
-    steps:
-    - name: deploy no heroku
