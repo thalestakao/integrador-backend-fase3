@@ -1,3 +1,3 @@
-insert into tb_usuario(id, created_by, creation_date_time, last_modified_by, last_modified_date, version, papel, senha, username)
-values
-(1,"engc.thales@gmail.com", NOW(), "engc.thales@gmail.com", NOW(), 0, "ROLE_CORRENTISTA", "$10$AVGA6EPiQ1L9L/1EC9AzbOFmN1v3MCon03doZVOwHrIR1nW7guGS.", "1234");
+INSERT INTO `tb_usuario`(papel, senha, username) VALUES ('ROLE_CORRENTISTA','$2a$10$AVGA6EPiQ1L9L/1EC9AzbOFmN1v3MCon03doZVOwHrIR1nW7guGS.','1111'),('ROLE_GERENTE','$2a$10$AVGA6EPiQ1L9L/1EC9AzbOFmN1v3MCon03doZVOwHrIR1nW7guGS.','gerente@icarros.com.br');
+INSERT INTO `tb_gerente` (cpf, email, nome, usuario_id) VALUES ('12312312387','gerente@icarros.com.br','João da Silva Sauro',2);
+INSERT INTO `tb_correntista` VALUES (3,'gerente@icarros.com.br',NOW(),'gerente@icarros.com.br',NOW(),0,'0001','S. João','15200000','Goiania','1111','12312312387', 'engc.thales@gmail.com','av. Teste','Thales',1,'629998587',5,1,1);

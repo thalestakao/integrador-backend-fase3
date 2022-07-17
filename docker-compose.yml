@@ -4,13 +4,13 @@ services:
     build:
       context: ./
       dockerfile: ./Dockerfile
-    image: starter/api
+    image: icontas/api
     ports:
       - "8080:8080"
       - "5005:5005"
     environment:
       - ADDITIONAL_OPTS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005 -Xmx1G -Xms128m -XX:MaxMetaspaceSize=128m
-      - PROFILE=dev
+      - PROFILE=${SPRING_PROFILE}
     networks:
       - icarros_mysql
     depends_on:
@@ -19,6 +19,8 @@ services:
   mysqldb_icarros:
       image: mysql:8
       env_file: .env
+      ports:
+      - "3306:3306"
       volumes:
         - ./db_mysql:/var/lib/mysql
       networks:
