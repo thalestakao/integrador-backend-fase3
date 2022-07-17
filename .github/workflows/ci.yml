@@ -32,6 +32,6 @@ jobs:
         image: thalestakao/icontas
         tags: latest
         registry: docker.io
-        dockerfile: ../../Dockerfile
+        dockerfile: Dockerfile
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_PASSWORD }}
