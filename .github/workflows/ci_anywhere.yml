@@ -4,10 +4,9 @@
 name: IContas CI
 
 on:
-  push:
-    branches: [ "feature/arquitetura" ]
   pull_request:
-    branches: [ "feature/arquitetura" ]
+    branches: 
+      - main
 
 jobs:
   build:
@@ -23,15 +22,4 @@ jobs:
         distribution: 'temurin'
         cache: maven
     - name: Build da aplicação com application-test
-      run: mvn -B clean test -Ptest
-    - name: Build da aplicação com application-prod
-      run: mvn -B clean package -DskipTests -Pprod
-    - name: Build & push da imagem docker
-      uses: mr-smithers-excellent/docker-build-push@v5
-      with:
-        image: thalestakao/icontas
-        tags: latest
-        registry: docker.io
-        dockerfile: Dockerfile
-        username: ${{ secrets.DOCKERHUB_USERNAME }}
-        password: ${{ secrets.DOCKERHUB_PASSWORD }}
+      run: mvn -B clean package -Ptest
