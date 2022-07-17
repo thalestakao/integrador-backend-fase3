@@ -74,6 +74,8 @@ public class JWTConfigIcarros {
 				.and().authenticationManager(authenticationManager)
 				.addFilterBefore(new TokenValidatorFilterProcess(userDetailsService, handlerExceptionResolver),
 						UsernamePasswordAuthenticationFilter.class)
+				.headers().frameOptions().disable()
+				.and()
 				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 		return http.build();
 

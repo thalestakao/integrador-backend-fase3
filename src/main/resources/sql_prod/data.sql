@@ -1,0 +1,3 @@
+INSERT INTO `tb_usuario` VALUES (1,NULL,NULL,NULL,NULL,1,'$2a$10$AVGA6EPiQ1L9L/1EC9AzbOFmN1v3MCon03doZVOwHrIR1nW7guGS.','1111','ROLE_CORRENTISTA'),(2,NULL,NULL,NULL,NULL,NULL,'$2a$10$AVGA6EPiQ1L9L/1EC9AzbOFmN1v3MCon03doZVOwHrIR1nW7guGS.','gerente@icarros.com.br','ROLE_GERENTE');
+INSERT INTO `tb_gerente` VALUES (1,NULL,NULL,NULL,NULL,1,'12312312387','gerente@icarros.com.br','João da Silva Sauro',2);
+INSERT INTO `tb_correntista` VALUES (3,'gerente@icarros.com.br','2022-07-13 20:55:32.035123','gerente@icarros.com.br','2022-07-13 20:55:32.035123',NULL,'0001','S. João','15200000','Goiania','1111','engc.thales@gmail.com','av. Teste','Thales','629998587',5,1,1,'12312312387',_binary '');
