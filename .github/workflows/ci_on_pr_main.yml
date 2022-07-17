@@ -1,4 +1,4 @@
-name: IContas CI - PR para Main (Heroku)
+name: IContas CI/CD - PR para Main (Heroku)
 
 on:
   pull_request:
