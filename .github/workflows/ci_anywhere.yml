@@ -21,5 +21,5 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
         cache: maven
-    - name: Build da aplicação com application-test
+    - name: Build da aplicação com application-test.properties
       run: mvn -B clean package -Ptest
