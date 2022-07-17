@@ -23,3 +23,14 @@ jobs:
         cache: maven
     - name: Build da aplicação com application-test
       run: mvn -B clean package -Ptest
+    
+  deploy-heroku:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+    - name: Deploy to Heroku
+      uses: AkhileshNS/heroku-deploy@v3.12.12
+      with:
+        heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+        heroku_email:  ${{secrets.HEROKU_EMAIL}}
+        heroku_app_name: ${{secrets.HEROKU_APP}}
