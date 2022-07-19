@@ -1,20 +1,14 @@
 package br.com.icarros.icontas.dto.request;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Positive;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 
-@Data
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
-public class UsuarioRequest {
-	@Positive
-	@NotBlank(message = "conta é um campo obrigatório")
-    private String conta;
+public record UsuarioRequest(
+		@NotBlank(message = "username é um campo obrigatório") String username, 
+		@NotBlank(message= "senha é um campo obrigatório") String senha) {
 	
-}
+	public UsernamePasswordAuthenticationToken converter() {
+		return new UsernamePasswordAuthenticationToken(username, senha);
+	}
+} 

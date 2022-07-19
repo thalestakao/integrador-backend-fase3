@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.icarros.icontas.base.ServerSideResponse;
-import br.com.icarros.icontas.dto.request.UsuarioRequest;
+import br.com.icarros.icontas.dto.request.CreateUsuarioRequest;
 import br.com.icarros.icontas.exception.UsuarioJaCriado;
 import br.com.icarros.icontas.service.UsuarioService;
 
@@ -19,7 +19,7 @@ public class UsuarioController {
 	@Autowired
 	private UsuarioService usuarioService;
 	@PostMapping
-	public ResponseEntity<ServerSideResponse<String>> createUsuario(@RequestBody UsuarioRequest payload) throws UsuarioJaCriado {
+	public ResponseEntity<ServerSideResponse<String>> createUsuario(@RequestBody CreateUsuarioRequest payload) throws UsuarioJaCriado {
 		String body = usuarioService.createUser(payload);
 		ServerSideResponse<String> ssr = ServerSideResponse.<String>builder()
 				.dado(body).statusCode(HttpStatus.CREATED.value()).build();

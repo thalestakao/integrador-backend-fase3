@@ -7,7 +7,7 @@ import javax.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
-import br.com.icarros.icontas.dto.request.UsuarioRequest;
+import br.com.icarros.icontas.dto.request.CreateUsuarioRequest;
 import br.com.icarros.icontas.entity.Usuario;
 import br.com.icarros.icontas.exception.UsuarioJaCriado;
 import br.com.icarros.icontas.repository.UsuarioRepository;
@@ -20,7 +20,7 @@ public class UsuarioService {
 	private UsuarioRepository usuarioRepository;
 	private final ModelMapper modelMapper ;
 	@Transactional
-	public String createUser(UsuarioRequest request) throws UsuarioJaCriado {
+	public String createUser(CreateUsuarioRequest request) throws UsuarioJaCriado {
 		Optional<Usuario> usuarioOptional = usuarioRepository.findByUsername(request.getConta());
 		if(usuarioOptional.isPresent()) throw new UsuarioJaCriado("usuario já existente");
 		Usuario usr = this.fromDTO(request);
@@ -33,7 +33,7 @@ public class UsuarioService {
 		
 	}
 	
-    public Usuario fromDTO(UsuarioRequest request) {
+    public Usuario fromDTO(CreateUsuarioRequest request) {
     	return modelMapper.map(request, Usuario.class);
     }
 }
