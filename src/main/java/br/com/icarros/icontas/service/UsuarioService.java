@@ -24,7 +24,7 @@ public class UsuarioService {
 		Optional<Usuario> usuarioOptional = usuarioRepository.findByUsername(request.getConta());
 		if(usuarioOptional.isPresent()) throw new UsuarioJaCriado("usuario já existente");
 		Usuario usr = this.fromDTO(request);
-		usr.setSenha("1234");
+		usr.setSenha("$2a$10$AVGA6EPiQ1L9L/1EC9AzbOFmN1v3MCon03doZVOwHrIR1nW7guGS.");
 		usr.setPapel("ROLE_CORRENTISTA");
 		usr.setUsername(request.getConta());
 		usuarioRepository.save(usr);
