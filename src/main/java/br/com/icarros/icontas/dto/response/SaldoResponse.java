@@ -5,11 +5,14 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Builder
+import java.math.BigDecimal;
+
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class CorrentistaResponse {
+public class SaldoResponse {
 
-	private Long id;
+	private BigDecimal saldoAtual;
+
 }

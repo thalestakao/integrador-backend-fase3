@@ -10,5 +10,8 @@ public class InfraestruturaException extends RuntimeException {
 	public InfraestruturaException(String mensagem) {
 		super(mensagem);
 	}
+	
+	public InfraestruturaException() {
+	}
 
 }

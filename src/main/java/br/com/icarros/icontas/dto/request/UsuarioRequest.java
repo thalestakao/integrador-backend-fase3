@@ -11,4 +11,4 @@ public record UsuarioRequest(
 	public UsernamePasswordAuthenticationToken converter() {
 		return new UsernamePasswordAuthenticationToken(username, senha);
 	}
-} 
+}

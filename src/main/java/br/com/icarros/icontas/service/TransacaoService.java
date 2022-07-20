@@ -3,6 +3,7 @@ package br.com.icarros.icontas.service;
 import java.math.BigDecimal;
 import java.util.Optional;
 
+import br.com.icarros.icontas.dto.response.SaldoResponse;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -15,7 +16,7 @@ import br.com.icarros.icontas.dto.response.SaqueResponse;
 import br.com.icarros.icontas.entity.Correntista;
 import br.com.icarros.icontas.entity.Transacao;
 import br.com.icarros.icontas.entity.enums.TipoOperacao;
-import br.com.icarros.icontas.exception.CorrentistaNaoEcontradoException;
+import br.com.icarros.icontas.exception.CorrentistaNaoEncontradoException;
 import br.com.icarros.icontas.exception.RegraDeNegocioException;
 import br.com.icarros.icontas.exception.SaldoInsuficienteException;
 import br.com.icarros.icontas.repository.CorrentistaRepository;
@@ -38,9 +39,9 @@ public class TransacaoService {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
 		String username = authentication.getName();
-		System.out.println(username);
+
 		Correntista correntista = correntistaRepository.findByConta(username)
-				.orElseThrow(() -> new CorrentistaNaoEcontradoException("Correntista não encontrado"));
+				.orElseThrow(() -> new CorrentistaNaoEncontradoException("Correntista não encontrado"));
 
 		Optional<Transacao> ultimaTransacaoCorrentistaOPT = transacaoRepository.findTopByCorrentistaIdOrderByIdDesc(correntista.getId());
 
@@ -65,7 +66,7 @@ public class TransacaoService {
 		return toResponseDeposita(transacao);
 	}
 
-	private DepositaResponse toResponseDeposita(Transacao deposita) {
+	public DepositaResponse toResponseDeposita(Transacao deposita) {
 		return mapper.map(deposita, DepositaResponse.class);
 	}
 
@@ -74,9 +75,9 @@ public class TransacaoService {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
 		String username = authentication.getName();
-		System.out.println(username);
+
 		Correntista correntista = correntistaRepository.findByConta(username)
-				.orElseThrow(() -> new CorrentistaNaoEcontradoException("Correntista não encontrado"));
+				.orElseThrow(() -> new CorrentistaNaoEncontradoException("Correntista não encontrado"));
 
 		Optional<Transacao> ultimaTransacaoCorrentistaOPT = transacaoRepository.findTopByCorrentistaIdOrderByIdDesc(correntista.getId());
 
@@ -87,7 +88,9 @@ public class TransacaoService {
 		}
 
 		if(saldoAnterior.compareTo(saqueRequest.getVlrSaque())< 0) {
+			
 			throw new SaldoInsuficienteException("Saldo insuficiente.");
+			
 		}else {
 			BigDecimal saldoAtual = saldoAnterior.subtract(saqueRequest.getVlrSaque());
 
@@ -102,10 +105,31 @@ public class TransacaoService {
 			Transacao transacao = transacaoRepository.save(saque);
 			return toResponseSaque(saque);
 		}
-
 	}
 
 	private SaqueResponse toResponseSaque(Transacao saque) {
 		return mapper.map(saque, SaqueResponse.class);
 	}
+
+	public SaldoResponse saldo() throws RegraDeNegocioException{
+
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+		String username = authentication.getName();
+
+		Correntista correntista = correntistaRepository.findByConta(username)
+				.orElseThrow(() -> new CorrentistaNaoEncontradoException("Correntista não encontrado"));
+
+		Optional<Transacao> transacaoCorrentistaOPT = transacaoRepository.findTopByCorrentistaIdOrderByIdDesc(correntista.getId());
+
+		if(transacaoCorrentistaOPT.isPresent()){
+			return toResponseSaldo(transacaoCorrentistaOPT.get());
+		}
+			return new SaldoResponse(new BigDecimal(0));
+		}
+
+	private SaldoResponse toResponseSaldo(Transacao transacao) {
+		return mapper.map(transacao, SaldoResponse.class);
+	}
+
 }

@@ -22,7 +22,7 @@ import br.com.icarros.icontas.entity.Usuario;
 import br.com.icarros.icontas.repository.UsuarioRepository;
 
 @ExtendWith(MockitoExtension.class)
-public class UserDetailsServiceImplTest {
+public class UserDetailsServiceImplUnitTest {
 	
 	@InjectMocks
 	UserDetailsServiceImpl userDetailsServiceImpl;
