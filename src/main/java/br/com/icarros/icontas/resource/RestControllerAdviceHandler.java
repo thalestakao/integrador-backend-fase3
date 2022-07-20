@@ -27,6 +27,7 @@ import br.com.icarros.icontas.exception.GerenteInexistenteException;
 import br.com.icarros.icontas.exception.GerenteJaAtivo;
 import br.com.icarros.icontas.exception.RegraDeNegocioException;
 import br.com.icarros.icontas.exception.SaldoInsuficienteException;
+import br.com.icarros.icontas.exception.UsuarioJaCriado;
 import br.com.icarros.icontas.exception.UsuarioDesativadoException;
 import br.com.icarros.icontas.exception.UsuarioSemRoleException;
 
@@ -55,6 +56,12 @@ public class RestControllerAdviceHandler {
 	public ServerSideResponse<?> gerenteInexiste(GerenteInexistenteException e, WebRequest request) {
 		return ServerSideResponse.builder().mensagem("Gerente informado não encontrado.").statusCode(HttpStatus.BAD_REQUEST.value()).build();
 	}
+  
+	@ExceptionHandler(UsuarioJaCriado.class)
+	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
+	public ServerSideResponse<?> gerenteInexiste(UsuarioJaCriado e, WebRequest request) {
+		return ServerSideResponse.builder().mensagem(e.getMessage()).statusCode(HttpStatus.BAD_REQUEST.value()).build();
+  }
 	
 	@ExceptionHandler(BadCredentialsException.class)
 	@ResponseStatus(code = HttpStatus.UNAUTHORIZED)
@@ -83,6 +90,7 @@ public class RestControllerAdviceHandler {
 	public ServerSideResponse<?> regraDeNegocioException(RegraDeNegocioException e, WebRequest request) {
 		return ServerSideResponse.builder().mensagem(e.getMessage()).statusCode(HttpStatus.BAD_REQUEST.value()).build();
 	}
+
 
 	@ExceptionHandler(CorrentistaNaoEncontradoException.class)
 	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
