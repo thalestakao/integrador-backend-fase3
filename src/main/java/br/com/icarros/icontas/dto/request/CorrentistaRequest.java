@@ -6,6 +6,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Positive;
 
 import org.hibernate.validator.constraints.br.CPF;
 
@@ -26,7 +27,7 @@ public class CorrentistaRequest {
 	
 	@NotBlank(message = "agência é um campo obrigatório")
     private String agencia;
-
+	@Positive
 	@NotBlank(message = "conta é um campo obrigatório")
     private String conta;
 
