@@ -60,13 +60,13 @@ public class RestControllerAdviceHandler {
 	@ExceptionHandler(UsuarioJaCriado.class)
 	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
 	public ServerSideResponse<?> gerenteInexiste(UsuarioJaCriado e, WebRequest request) {
-		return ServerSideResponse.builder().mensagem(e.getMessage()).statusCode(HttpStatus.BAD_REQUEST.value()).build();
+		return ServerSideResponse.builder().mensagem("Usuário já criado anteriormente.").statusCode(HttpStatus.BAD_REQUEST.value()).build();
   }
 	
 	@ExceptionHandler(BadCredentialsException.class)
 	@ResponseStatus(code = HttpStatus.UNAUTHORIZED)
 	public ServerSideResponse<?> dadosLoginInvalidos(BadCredentialsException e, WebRequest request) {
-		return ServerSideResponse.builder().mensagem(e.getMessage()).statusCode(HttpStatus.UNAUTHORIZED.value()).build();
+		return ServerSideResponse.builder().mensagem("Usuário e/ou senha incorretos.").statusCode(HttpStatus.UNAUTHORIZED.value()).build();
 	}
 
 	@ExceptionHandler(MethodArgumentNotValidException.class)

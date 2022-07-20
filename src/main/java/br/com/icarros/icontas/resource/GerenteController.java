@@ -36,7 +36,7 @@ public class GerenteController {
 	public ResponseEntity<ServerSideResponse<GerenteResponse>>postGerente(@RequestBody @Valid GerenteRequest request) throws GerenteJaAtivo{
 		GerenteResponse body = gereneteService.createGerente(request);
 		ServerSideResponse<GerenteResponse> ssr = ServerSideResponse.<GerenteResponse>builder()
-				.dado(body).statusCode(HttpStatus.CREATED.value()).build();
+				.dados(body).statusCode(HttpStatus.CREATED.value()).build();
 		return new ResponseEntity<ServerSideResponse<GerenteResponse>>(ssr, HttpStatus.CREATED);
 	}
 	
@@ -44,14 +44,14 @@ public class GerenteController {
 	public ResponseEntity<ServerSideResponse<GerenteResponse>> putGerente(@RequestBody @Valid GerenteRequest request,@PathVariable Long id) throws GerenteJaAtivo, GerenteInexistenteException{
 		GerenteResponse body = gereneteService.updateTotalyGerente(request, id);
 		ServerSideResponse<GerenteResponse> ssr = ServerSideResponse.<GerenteResponse>builder()
-				.dado(body).statusCode(HttpStatus.OK.value()).build();
+				.dados(body).statusCode(HttpStatus.OK.value()).build();
 		return new ResponseEntity<ServerSideResponse<GerenteResponse>>(ssr, HttpStatus.OK);
 	}
 	@PatchMapping("/{id}")
 	public ResponseEntity<ServerSideResponse<GerenteResponse>> patchGerente(@RequestBody @Valid GerenteRequestPatch request,@PathVariable Long id) throws GerenteInexistenteException, GerenteJaAtivo{
 		GerenteResponse body = gereneteService.updatePartityGerente(request, id);
 		ServerSideResponse<GerenteResponse> ssr = ServerSideResponse.<GerenteResponse>builder()
-				.dado(body).statusCode(HttpStatus.OK.value()).build();
+				.dados(body).statusCode(HttpStatus.OK.value()).build();
 		return new ResponseEntity<ServerSideResponse<GerenteResponse>>(ssr, HttpStatus.OK);
 		
 	}
