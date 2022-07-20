@@ -17,7 +17,7 @@ import lombok.Getter;
 @JsonInclude(Include.NON_NULL)
 public class ServerSideResponse<T> {
 
-	private T dado;
+	private T dados;
 	
 	private Map<String, Object> extra;
 	
