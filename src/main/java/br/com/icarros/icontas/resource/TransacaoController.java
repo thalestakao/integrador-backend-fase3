@@ -31,7 +31,7 @@ public class TransacaoController {
 		depositaResponse = transacaoService.deposita(depositaRequest);
 		
 		ServerSideResponse<DepositaResponse> ssr = ServerSideResponse.<DepositaResponse>builder()
-				.dado(depositaResponse).statusCode(HttpStatus.OK.value()).build();
+				.dados(depositaResponse).statusCode(HttpStatus.OK.value()).build();
 		
 		return new ResponseEntity<ServerSideResponse<DepositaResponse>>(ssr, HttpStatus.OK);
 		
@@ -45,7 +45,7 @@ public class TransacaoController {
 		saqueResponse = transacaoService.saque(saqueRequest);
 		
 		ServerSideResponse<SaqueResponse> ssr = ServerSideResponse.<SaqueResponse>builder()
-				.dado(saqueResponse).statusCode(HttpStatus.OK.value()).build();
+				.dados(saqueResponse).statusCode(HttpStatus.OK.value()).build();
 		
 		return new ResponseEntity<ServerSideResponse<SaqueResponse>>(ssr, HttpStatus.OK);
 		
@@ -58,7 +58,7 @@ public class TransacaoController {
 		saldoResponse = transacaoService.saldo();
 
 		ServerSideResponse<SaldoResponse> ssr = ServerSideResponse.<SaldoResponse>builder()
-				.dado(saldoResponse).statusCode(HttpStatus.OK.value()).build();
+				.dados(saldoResponse).statusCode(HttpStatus.OK.value()).build();
 
 		return new ResponseEntity<ServerSideResponse<SaldoResponse>>(ssr, HttpStatus.OK);
 	}

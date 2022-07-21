@@ -22,7 +22,7 @@ public class UsuarioController {
 	public ResponseEntity<ServerSideResponse<String>> createUsuario(@RequestBody CreateUsuarioRequest payload) throws UsuarioJaCriado {
 		String body = usuarioService.createUser(payload);
 		ServerSideResponse<String> ssr = ServerSideResponse.<String>builder()
-				.dado(body).statusCode(HttpStatus.CREATED.value()).build();
+				.dados(body).statusCode(HttpStatus.CREATED.value()).build();
 		return new ResponseEntity<ServerSideResponse<String>>(ssr, HttpStatus.CREATED);
 
 	}

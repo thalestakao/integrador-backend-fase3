@@ -41,7 +41,7 @@ public class CorrentistaController {
 		correntistaResponse = correntistaService.create(correntistaRequest);
 
 		ServerSideResponse<CorrentistaResponse> ssr = ServerSideResponse.<CorrentistaResponse>builder()
-				.dado(correntistaResponse).statusCode(HttpStatus.CREATED.value()).build();
+				.dados(correntistaResponse).statusCode(HttpStatus.CREATED.value()).build();
 
 		return new ResponseEntity<ServerSideResponse<CorrentistaResponse>>(ssr, HttpStatus.CREATED);
 
@@ -54,7 +54,7 @@ public class CorrentistaController {
 		correntistaResponse= correntistaService.delete(numConta);
 
 		ServerSideResponse<CorrentistaResponse> ssr = ServerSideResponse.<CorrentistaResponse>builder()
-				.dado(correntistaResponse).statusCode(HttpStatus.OK.value()).build();
+				.dados(correntistaResponse).statusCode(HttpStatus.OK.value()).build();
 
 		return new ResponseEntity<ServerSideResponse<CorrentistaResponse>>(ssr, HttpStatus.OK);
 	}
@@ -67,7 +67,7 @@ public class CorrentistaController {
 		correntistaResponse = correntistaService.update(correntistaRequest, numConta);
 
 		ServerSideResponse<CorrentistaResponse> ssr = ServerSideResponse.<CorrentistaResponse>builder()
-				.dado(correntistaResponse).statusCode(HttpStatus.OK.value()).build();
+				.dados(correntistaResponse).statusCode(HttpStatus.OK.value()).build();
 
 		return new ResponseEntity<ServerSideResponse<CorrentistaResponse>>(ssr, HttpStatus.OK);
 	}

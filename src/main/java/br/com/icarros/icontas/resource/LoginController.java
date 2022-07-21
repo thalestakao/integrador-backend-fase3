@@ -38,7 +38,7 @@ public class LoginController {
 
 		TokenResponse tokenResponse = new TokenResponse(token);
 
-		return ResponseEntity.ok(ServerSideResponse.<TokenResponse>builder().dado(tokenResponse)
+		return ResponseEntity.ok(ServerSideResponse.<TokenResponse>builder().dados(tokenResponse)
 				.statusCode(HttpStatus.OK.value()).build());
 	}
 }
